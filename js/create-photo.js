@@ -16,6 +16,7 @@ Math.floor(Math.random()*number);
 
 import {getRandomIntInclusive} from './random-number.js';
 
+const PHOTO_COUNT = 25;
 const namesArray = ['Артем', 'Иван', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 
 let createPhoto = function(count) {
@@ -45,4 +46,20 @@ let createPhoto = function(count) {
   return photoArray;
 };
 
-export {namesArray, createPhoto};
+const createPhotos = () => new Array(PHOTO_COUNT).fill(null).map(() => createPhoto());
+const similarPhotos = createPhotos();
+const similarPictureBlock = document.querySelector('.pictures');
+const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const similarPhotoFragment = document.createDocumentFragment();
+
+similarPhotos.forEach((foto) => {
+  const pictureElement = similarPictureTemplate.cloneNode(true);
+  pictureElement.querySelector('.picture__img').src = foto.url;
+  pictureElement.querySelector('.picture__likes').textContent = foto.likes;
+  pictureElement.querySelector('.picture__comments').textContent = foto.comments;
+  similarPhotoFragment.appendChild(pictureElement);
+});
+
+similarPictureBlock.appendChild(similarPhotoFragment);
+
+export {createPhoto};
