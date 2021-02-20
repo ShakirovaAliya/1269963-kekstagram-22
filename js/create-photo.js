@@ -62,4 +62,4 @@ similarPhotos.forEach((foto) => {
 
 similarPictureBlock.appendChild(similarPhotoFragment);
 
-export {namesArray, createPhoto};
+export {createPhoto};
