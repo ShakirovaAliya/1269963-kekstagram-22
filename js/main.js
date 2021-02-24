@@ -1,5 +1,6 @@
-import {createPhoto} from './create-photo.js';
-import {commentField, MAX_COMMENT_LENGTH, checkCommentLenght} from './check-length.js';
+import {checkCommentLenght} from './util.js';
+import {getId} from './big-photo.js';
+import {commentField, MAX_COMMENT_LENGTH} from './check-length.js';
 
-createPhoto(25);
 checkCommentLenght(commentField, MAX_COMMENT_LENGTH);
+document.addEventListener('click', getId);

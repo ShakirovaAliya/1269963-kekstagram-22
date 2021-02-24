@@ -10,4 +10,14 @@ let getRandomIntInclusive = function(min, max) {
   }
 };
 
-export {getRandomIntInclusive};
+// Функция для проверки максимальной длины строки
+
+let checkCommentLenght = function(comment, MAX_LENGTH) {
+  if(comment.maxlength<=MAX_LENGTH) {
+    return 'true';
+  } else {
+    return 'false'
+  }
+}
+
+export {checkCommentLenght, getRandomIntInclusive};
