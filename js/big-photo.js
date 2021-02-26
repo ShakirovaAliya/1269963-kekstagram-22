@@ -21,7 +21,23 @@ let createBigPicture = function (bigFoto) {
   pageBody.classList.add('modal-open');
 
   return bigPicture;
-}
+};
+
+let bigPicture = document.querySelector('.big-picture');
+let closePopup = bigPicture.querySelector('.big-picture__cancel');
+closePopup.addEventListener('click', function() {
+  bigPicture.classList.add('hidden');
+  pageBody.classList.remove('modal-open');
+});
+
+
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === ('Escape' || 'Esc')) {
+    evt.preventDefault();
+    bigPicture.classList.add('hidden');
+    pageBody.classList.remove('modal-open');
+  }
+});
 
 let getId = function (evt) {
   let target = evt.target;
