@@ -1,20 +1,6 @@
 //  создание массива из 25 сгенерированных объектов
 
-/*
-let createArray = function (quantity) {
-  let arr = [];
-  for (let k = 1; k <= quantity; k++) {
-    arr.push(k)
-  }
-  return arr;
-};
-
-const avatarArray = createArray(6);
-const urlArray = createArray(25);
-Math.floor(Math.random()*number);
-*/
-
-import {getRandomIntInclusive} from './random-number.js';
+import {getRandomIntInclusive} from './util.js';
 
 const PHOTO_COUNT = 25;
 const namesArray = ['Артем', 'Иван', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
@@ -57,9 +43,10 @@ similarPhotos.forEach((foto) => {
   pictureElement.querySelector('.picture__img').src = foto.url;
   pictureElement.querySelector('.picture__likes').textContent = foto.likes;
   pictureElement.querySelector('.picture__comments').textContent = foto.comments;
+  pictureElement.dataset.id = foto.id;
   similarPhotoFragment.appendChild(pictureElement);
 });
 
 similarPictureBlock.appendChild(similarPhotoFragment);
 
-export {createPhoto};
+export {similarPhotos};
