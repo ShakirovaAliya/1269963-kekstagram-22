@@ -23,19 +23,20 @@ let createBigPicture = function (bigFoto) {
   return bigPicture;
 };
 
+
 let bigPicture = document.querySelector('.big-picture');
-let closePopup = bigPicture.querySelector('.big-picture__cancel');
-closePopup.addEventListener('click', function() {
+let bigPictureCansel = bigPicture.querySelector('.big-picture__cancel');
+
+let closePopup = function() {
   bigPicture.classList.add('hidden');
   pageBody.classList.remove('modal-open');
-});
+};
 
-
-document.addEventListener('keydown', (evt) => {
+bigPictureCansel.addEventListener('click', closePopup);
+document.addEventListener('keydown', function(evt) {
   if (evt.key === ('Escape' || 'Esc')) {
-    evt.preventDefault();
-    bigPicture.classList.add('hidden');
-    pageBody.classList.remove('modal-open');
+    evt.preventDefault;
+    closePopup();
   }
 });
 
