@@ -33,8 +33,6 @@ let scaleControlValue = scale.querySelector('.scale__control--value');
 let imgUploadPreview = document.querySelector('.img-upload__preview');
 let imgUpload = imgUploadPreview.querySelector('img');
 let effectsRadio = document.querySelectorAll('.effects__radio');
-let effectsRadioMarvin = document.querySelector('#effect-marvin');
-let effectsRadioPhobos = document.querySelector('#effect-phobos');
 let currentScaleValue = 100;
 let maxScaleValue = 100;
 let minScaleValue = 25;
@@ -84,12 +82,7 @@ noUiSlider.create(sliderElement, {
 });
 
 sliderElement.noUiSlider.on('update', (values, handle) => {
-  if (effectsRadioMarvin.checked) {
-    valueElement.value = values[handle] + '%';
-  }
-  if (effectsRadioPhobos.checked) {
-    valueElement.value = values[handle] + 'px';
-  } else { valueElement.value = values[handle] }
+  valueElement.value = values[handle]
 });
 
 for (let i = 0; i < effectsRadio.length; i++) {
@@ -104,6 +97,15 @@ for (let i = 0; i < effectsRadio.length; i++) {
     imgUpload.classList.add(newClassName);
     if (imgUpload.classList.contains('effects__preview--none')) {
       sliderElement.noUiSlider.destroy();
+    } else {
+      sliderElement.noUiSlider.on('update', (values, handle) => {
+        if (imgUpload.classList.contains('effects__preview--marvin')) {
+          valueElement.value = values[handle] + '%';
+        }
+        if (imgUpload.classList.contains('effects__preview--phobos')) {
+          valueElement.value = values[handle] + 'px';
+        }
+      })
     }
     if (evt.target.checked) {
       if (imgUpload.classList.contains('effects__preview--chrome')) {

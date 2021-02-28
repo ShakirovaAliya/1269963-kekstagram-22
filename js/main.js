@@ -5,4 +5,3 @@ import  './upload-form.js'
 
 checkCommentLenght(commentField, MAX_COMMENT_LENGTH);
 document.addEventListener('click', getId);
-
