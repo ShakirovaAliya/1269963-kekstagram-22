@@ -25,14 +25,14 @@ let createBigPicture = function (bigFoto) {
 
 
 let bigPicture = document.querySelector('.big-picture');
-let bigPictureCansel = bigPicture.querySelector('.big-picture__cancel');
+let bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
 let closePopup = function() {
   bigPicture.classList.add('hidden');
   pageBody.classList.remove('modal-open');
 };
 
-bigPictureCansel.addEventListener('click', closePopup);
+bigPictureCancel.addEventListener('click', closePopup);
 document.addEventListener('keydown', function(evt) {
   if (evt.key === ('Escape' || 'Esc')) {
     evt.preventDefault;
@@ -52,5 +52,5 @@ let getId = function (evt) {
   }
 };
 
-export {getId};
+export {getId, pageBody};
 
