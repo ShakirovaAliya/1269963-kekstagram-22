@@ -40,7 +40,6 @@ scaleControlValue.value = currentScaleValue + '%';
 currentScaleValue >= minScaleValue && currentScaleValue <= maxScaleValue;
 let sliderElement = document.querySelector('.effect-level__slider');
 let valueElement = document.querySelector('.effect-level__value');
-let noUiSlider;
 valueElement.value = 1;
 
 scaleControlSmaller.addEventListener('click', function () {
