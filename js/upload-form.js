@@ -37,12 +37,13 @@ let currentScaleValue = 100;
 let maxScaleValue = 100;
 let minScaleValue = 25;
 scaleControlValue.value = currentScaleValue + '%';
-currentScaleValue >= minScaleValue && currentScaleValue <= maxScaleValue;
 
 scaleControlSmaller.addEventListener('click', function () {
   let scaleValue = currentScaleValue;
-  let newValue = scaleValue - 25;
-  currentScaleValue = newValue;
+  if(scaleValue > minScaleValue) {
+    let newValue = scaleValue - 25;
+    currentScaleValue = newValue;
+  } else {scaleValue == minScaleValue}
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
   return currentScaleValue;
@@ -50,8 +51,10 @@ scaleControlSmaller.addEventListener('click', function () {
 
 scaleControlBigger.addEventListener('click', function () {
   let scaleValue = currentScaleValue;
-  let newValue = scaleValue + 25;
-  currentScaleValue = newValue;
+  if(scaleValue < maxScaleValue) {
+    let newValue = scaleValue + 25;
+    currentScaleValue = newValue;
+  } else {scaleValue == minScaleValue}
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
   return currentScaleValue;
