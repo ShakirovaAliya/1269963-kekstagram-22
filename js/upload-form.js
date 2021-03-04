@@ -74,26 +74,28 @@ let sliderElement = document.querySelector('.effect-level__slider');
 let valueElement = document.querySelector('.effect-level__value');
 valueElement.value = 1;
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 1,
-  },
-  start: 1,
-  step: 0.1,
-  connect: 'lower',
-  format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
+if (imgUploadOverlay.className !== 'hidden') {
+  noUiSlider.create(sliderElement, {
+    range: {
+      min: 0,
+      max: 1,
     },
-    from: function (value) {
-      return parseFloat(value);
+    start: 1,
+    step: 0.1,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
     },
-  },
-});
+  });
+}
 
 sliderElement.noUiSlider.on('update', (values, handle) => {
   valueElement.value = values[handle]
@@ -147,38 +149,58 @@ if (imgUpload.classList.contains('effects__preview--phobos')) {
 
 
 // задание 6.2
-let comment = document.querySelector('.text__description');
-let hashtag = document.querySelector('.text__hashtags');
+let commentField = document.querySelector('.text__description');
+let hashtagField = document.querySelector('.text__hashtags');
 
 const MAX_COMMENT_LENGTH = 140;
-const MIN_HASHTAG_LENGTH = 2;
-const MAX_HASHTAG_LENGTH = 104;
+const MIN_HASHTAG_FIELD_LENGTH = 2;
+const MAX_HASHTAG_FIELD_LENGTH = 104;
 
-comment.addEventListener('input', () => {
-  const valueLength = comment.value.length;
+commentField.addEventListener('input', () => {
+  const valueLength = commentField.value.length;
   if (valueLength > MAX_COMMENT_LENGTH) {
-    comment.setCustomValidity('Удалите лишние ' + (valueLength - MAX_COMMENT_LENGTH) + ' симв.');
+    commentField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_COMMENT_LENGTH) + ' симв.');
   } else {
-    comment.setCustomValidity('');
+    commentField.setCustomValidity('');
   }
-  comment.reportValidity();
+  commentField.reportValidity();
 });
 
 
-hashtag.addEventListener('input', () => {
-  const valueLength = hashtag.value.length;
-  if (valueLength < MIN_HASHTAG_LENGTH) {
-    hashtag.setCustomValidity('Ещё ' + (MIN_HASHTAG_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > MAX_HASHTAG_LENGTH) {
-    hashtag.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_LENGTH) + ' симв.');
+hashtagField.addEventListener('input', () => {
+  const valueLength = hashtagField.value.length;
+  if (valueLength < MIN_HASHTAG_FIELD_LENGTH) {
+    hashtagField.setCustomValidity('Ещё ' + (MIN_HASHTAG_FIELD_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
+    hashtagField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_FIELD_LENGTH) + ' симв.');
   } else {
-    hashtag.setCustomValidity('');
+    hashtagField.setCustomValidity('');
   }
-  hashtag.reportValidity();
+  hashtagField.reportValidity();
 });
 
-if (!hashtag.value) {
-  let splits = hashtag.value.split(' ', 5);
+hashtagField.addEventListener('input', () => {
+  if (hashtagField.value !== '') {
+    let hashtagArray = [];
+    let hashtagList = hashtagField.value.split(' ');
+    hashtagArray.push(hashtagList);
+    console.log(hashtagArray);
+    if (hashtagList) {
+      for (let j = 0; j < hashtagList.length; j++) {
+        let arrayOfWorld = hashtagList[j].split(' ');
+        arrayOfWorld.length = 20;
+        if (arrayOfWorld[0] !== '#') {
+          hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
+        } else {
+          hashtagField.setCustomValidity('');
+        }
+      }
+    }
+  }
+});
+
+/*if(hashtag.value) {
+  let splits = hashtag.value.split(' ');
   splits.length = 5;
   for (let j = 0; j < splits.length; j++) {
     let arrayOfWorld = splits[j].split('#');
@@ -190,7 +212,7 @@ if (!hashtag.value) {
     }
   }
 }
-
+*/
 /*
 Для валидации хэш-тегов вам придётся вспомнить, как работать
 с массивами. Набор хэш-тегов можно превратить в массив, воспользовавшись
