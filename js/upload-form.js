@@ -5,26 +5,28 @@ let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
 
+let onPopupEscPress = function (evt) {
+  if (evt.key === ('Escape' || 'Esc')) {
+    evt.preventDefault();
+    toCloseForm();
+  }
+};
+
 let toOpenForm = function () {
   imgUploadOverlay.classList.remove('hidden');
   pageBody.classList.add('modal-open');
+  document.addEventListener('keydown', onPopupEscPress);
 };
 
 let toCloseForm = function () {
   imgUploadInput.value = '';
   imgUploadOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
 imgUploadInput.addEventListener('input', toOpenForm);
 uploadCancel.addEventListener('click', toCloseForm);
-
-document.addEventListener('keydown', function (evt) {
-  if (evt.key === ('Escape' || 'Esc')) {
-    evt.preventDefault;
-    toCloseForm();
-  }
-});
 
 let scale = document.querySelector('.scale');
 let scaleControlSmaller = scale.querySelector('.scale__control--smaller');
@@ -98,11 +100,10 @@ if (imgUploadOverlay.className !== 'hidden') {
       },
     },
   });
+  sliderElement.noUiSlider.on('update', (values, handle) => {
+    valueElement.value = values[handle]
+  });
 }
-
-sliderElement.noUiSlider.on('update', (values, handle) => {
-  valueElement.value = values[handle]
-});
 
 if (imgUpload.classList.contains('effects__preview--none')) {
   // sliderElement.noUiSlider.destroy();
@@ -169,6 +170,14 @@ commentField.addEventListener('input', () => {
   commentField.reportValidity();
 });
 
+commentField.addEventListener('focus', function() {
+  document.removeEventListener('keydown', onPopupEscPress);
+}, true);
+
+commentField.addEventListener('blur', function() {
+  document.addEventListener('keydown', onPopupEscPress);
+}, true);
+
 
 hashtagField.addEventListener('input', () => {
   const valueLength = hashtagField.value.length;
@@ -202,7 +211,29 @@ hashtagField.addEventListener('input', () => {
   }
 });
 
-/*if(hashtag.value) {
+hashtagField.addEventListener('focus', function() {
+  document.removeEventListener('keydown', onPopupEscPress);
+}, true);
+
+hashtagField.addEventListener('blur', function() {
+  document.addEventListener('keydown', onPopupEscPress);
+}, true);
+
+/*document.addEventListener('keydown', function (evt) {
+  if (evt.key === ('Escape' || 'Esc')) {
+    evt.preventDefault;
+    toCloseForm();
+  }
+});
+
+commentField.focus(function(evt) {
+  evt.stopPropagation();
+})
+
+*/
+
+/*
+if(hashtag.value) {
   let splits = hashtag.value.split(' ');
   splits.length = 5;
   for (let j = 0; j < splits.length; j++) {
@@ -216,6 +247,7 @@ hashtagField.addEventListener('input', () => {
   }
 }
 */
+
 /*
 Для валидации хэш-тегов вам придётся вспомнить, как работать
 с массивами. Набор хэш-тегов можно превратить в массив, воспользовавшись
@@ -225,7 +257,6 @@ hashtagField.addEventListener('input', () => {
 из тегов не проходит нужных проверок, можно воспользоваться методом
 setCustomValidity для того, чтобы задать полю правильное сообщение об ошибке.
 */
-
 
 /*
         Хэш-теги:
@@ -241,7 +272,9 @@ setCustomValidity для того, чтобы задать полю правил
 нельзя указать больше пяти хэш-тегов;
 если фокус находится в поле ввода хэш-тега, нажатие на
 Esc не должно приводить к закрытию формы редактирования изображения.
-Комментарий:
+
+
+        Комментарий:
 если фокус находится в поле ввода комментария, нажатие
 на Esc не должно приводить к закрытию формы редактирования изображения.
 */
