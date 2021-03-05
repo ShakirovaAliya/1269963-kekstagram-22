@@ -153,12 +153,40 @@ if (imgUpload.classList.contains('effects__preview--phobos')) {
 
 
 // задание 6.2
-let commentField = document.querySelector('.text__description');
-let hashtagField = document.querySelector('.text__hashtags');
-
 const MAX_COMMENT_LENGTH = 140;
 const MIN_HASHTAG_FIELD_LENGTH = 2;
 const MAX_HASHTAG_FIELD_LENGTH = 104;
+let commentField = document.querySelector('.text__description');
+let hashtagField = document.querySelector('.text__hashtags');
+
+let checkHashtag = function() {
+  if (hashtagField.value !== '') {
+    let hashtags = hashtagField.value.split(' ');
+    if(hashtags) {
+      hashtags.length = 5;
+      console.log(hashtags) // массив из слов
+      for(let j=0; j<hashtags.length; j++) {
+        let hashtag = hashtags[j];
+        console.log(hashtag); // слово
+        if(hashtag) {
+          let letters = hashtag.split(''); // массив из букв
+          letters.length = 20;
+          console.log(letters);
+          if (letters[0] !== '#') {
+            hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
+          } else {
+            hashtagField.setCustomValidity('');
+          }
+          if (letters.length > 20) {
+            hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку;');
+          } else {
+            hashtagField.setCustomValidity('');
+          }
+        }
+      }
+    }
+  }
+};
 
 commentField.addEventListener('input', () => {
   const valueLength = commentField.value.length;
@@ -189,26 +217,7 @@ hashtagField.addEventListener('input', () => {
     hashtagField.setCustomValidity('');
   }
   hashtagField.reportValidity();
-});
-
-hashtagField.addEventListener('input', () => {
-  if (hashtagField.value !== '') {
-    let hashtagArray = [];
-    let hashtagList = hashtagField.value.split(' ');
-    hashtagArray.push(hashtagList);
-    console.log(hashtagArray);
-    if (hashtagList) {
-      for (let j = 0; j < hashtagList.length; j++) {
-        let arrayOfWorld = hashtagList[j].split(' ');
-        arrayOfWorld.length = 20;
-        if (arrayOfWorld[0] !== '#') {
-          hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
-        } else {
-          hashtagField.setCustomValidity('');
-        }
-      }
-    }
-  }
+  checkHashtag();
 });
 
 hashtagField.addEventListener('focus', function() {
@@ -218,35 +227,6 @@ hashtagField.addEventListener('focus', function() {
 hashtagField.addEventListener('blur', function() {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
-
-/*document.addEventListener('keydown', function (evt) {
-  if (evt.key === ('Escape' || 'Esc')) {
-    evt.preventDefault;
-    toCloseForm();
-  }
-});
-
-commentField.focus(function(evt) {
-  evt.stopPropagation();
-})
-
-*/
-
-/*
-if(hashtag.value) {
-  let splits = hashtag.value.split(' ');
-  splits.length = 5;
-  for (let j = 0; j < splits.length; j++) {
-    let arrayOfWorld = splits[j].split('#');
-    arrayOfWorld.length = 20;
-    if (arrayOfWorld[0] !== '#') {
-      hashtag.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
-    } else {
-      hashtag.setCustomValidity('');
-    }
-  }
-}
-*/
 
 /*
 Для валидации хэш-тегов вам придётся вспомнить, как работать
@@ -260,21 +240,15 @@ setCustomValidity для того, чтобы задать полю правил
 
 /*
         Хэш-теги:
-хэш-тег начинается с символа # (решётка);
+// хэш-тег начинается с символа # (решётка);
 строка после решётки должна состоять из букв и чисел и
 не может содержать пробелы, спецсимволы (#, @, $ и т. п.),
 символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;
 хеш-тег не может состоять только из одной решётки;
-максимальная длина одного хэш-тега 20 символов, включая решётку;
+// максимальная длина одного хэш-тега 20 символов, включая решётку;
 хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
-хэш-теги разделяются пробелами;
+// хэш-теги разделяются пробелами;
 один и тот же хэш-тег не может быть использован дважды;
-нельзя указать больше пяти хэш-тегов;
-если фокус находится в поле ввода хэш-тега, нажатие на
-Esc не должно приводить к закрытию формы редактирования изображения.
+ ? нельзя указать больше пяти хэш-тегов;
 
-
-        Комментарий:
-если фокус находится в поле ввода комментария, нажатие
-на Esc не должно приводить к закрытию формы редактирования изображения.
 */
