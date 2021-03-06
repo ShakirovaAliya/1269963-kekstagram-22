@@ -42,10 +42,10 @@ scaleControlValue.value = currentScaleValue + '%';
 
 scaleControlSmaller.addEventListener('click', function () {
   let scaleValue = currentScaleValue;
-  if(scaleValue > minScaleValue) {
+  if (scaleValue > minScaleValue) {
     let newValue = scaleValue - 25;
     currentScaleValue = newValue;
-  } else {scaleValue == minScaleValue}
+  } else { scaleValue == minScaleValue }
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
   return currentScaleValue;
@@ -53,10 +53,10 @@ scaleControlSmaller.addEventListener('click', function () {
 
 scaleControlBigger.addEventListener('click', function () {
   let scaleValue = currentScaleValue;
-  if(scaleValue < maxScaleValue) {
+  if (scaleValue < maxScaleValue) {
     let newValue = scaleValue + 25;
     currentScaleValue = newValue;
-  } else {scaleValue == minScaleValue}
+  } else { scaleValue == minScaleValue }
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
   return currentScaleValue;
@@ -157,98 +157,67 @@ const MAX_COMMENT_LENGTH = 140;
 const MIN_HASHTAG_FIELD_LENGTH = 2;
 const MAX_HASHTAG_FIELD_LENGTH = 104;
 let commentField = document.querySelector('.text__description');
-let hashtagField = document.querySelector('.text__hashtags');
+let hashtagField = document.querySelector('.text__hashtags'); // инпут
 
-let checkHashtag = function() {
+let checkHashtag = function () {
   if (hashtagField.value !== '') {
     let hashtags = hashtagField.value.split(' ');
-    if(hashtags) {
-      hashtags.length = 5;
+    hashtags.length = 5;
+    if (hashtags) {
       console.log(hashtags) // массив из слов
-      for(let j=0; j<hashtags.length; j++) {
+      for (let j = 0; j < hashtags.length; j++) {
         let hashtag = hashtags[j];
         console.log(hashtag); // слово
-        if(hashtag) {
+         //  hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
+        if (hashtag) {
           let letters = hashtag.split(''); // массив из букв
-          letters.length = 20;
-          console.log(letters);
           if (letters[0] !== '#') {
             hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
-          } else {
-            hashtagField.setCustomValidity('');
-          }
-          if (letters.length > 20) {
-            hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку;');
           } else {
             hashtagField.setCustomValidity('');
           }
         }
       }
     }
-  }
+  };
 };
 
-commentField.addEventListener('input', () => {
-  const valueLength = commentField.value.length;
-  if (valueLength > MAX_COMMENT_LENGTH) {
-    commentField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_COMMENT_LENGTH) + ' симв.');
-  } else {
-    commentField.setCustomValidity('');
-  }
-  commentField.reportValidity();
-});
+  commentField.addEventListener('input', () => {
+    const valueLength = commentField.value.length;
+    if (valueLength > MAX_COMMENT_LENGTH) {
+      commentField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_COMMENT_LENGTH) + ' симв.');
+    } else {
+      commentField.setCustomValidity('');
+    }
+    commentField.reportValidity();
+  });
 
-commentField.addEventListener('focus', function() {
-  document.removeEventListener('keydown', onPopupEscPress);
-}, true);
+  commentField.addEventListener('focus', function () {
+    document.removeEventListener('keydown', onPopupEscPress);
+  }, true);
 
-commentField.addEventListener('blur', function() {
-  document.addEventListener('keydown', onPopupEscPress);
-}, true);
+  commentField.addEventListener('blur', function () {
+    document.addEventListener('keydown', onPopupEscPress);
+  }, true);
 
 
-hashtagField.addEventListener('input', () => {
-  const valueLength = hashtagField.value.length;
-  if (valueLength < MIN_HASHTAG_FIELD_LENGTH) {
-    hashtagField.setCustomValidity('Ещё ' + (MIN_HASHTAG_FIELD_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
-    hashtagField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_FIELD_LENGTH) + ' симв.');
-  } else {
-    hashtagField.setCustomValidity('');
-  }
-  hashtagField.reportValidity();
-  checkHashtag();
-});
+  hashtagField.addEventListener('input', () => {
+    const valueLength = hashtagField.value.length;
+    if (valueLength < MIN_HASHTAG_FIELD_LENGTH) {
+      hashtagField.setCustomValidity('Ещё ' + (MIN_HASHTAG_FIELD_LENGTH - valueLength) + ' симв.');
+    } else if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
+      hashtagField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_FIELD_LENGTH) + ' симв.');
+    } else {
+      hashtagField.setCustomValidity('');
+    }
+    hashtagField.reportValidity();
+    checkHashtag();
+  });
 
-hashtagField.addEventListener('focus', function() {
-  document.removeEventListener('keydown', onPopupEscPress);
-}, true);
+  hashtagField.addEventListener('focus', function () {
+    document.removeEventListener('keydown', onPopupEscPress);
+  }, true);
 
-hashtagField.addEventListener('blur', function() {
-  document.addEventListener('keydown', onPopupEscPress);
-}, true);
-
-/*
-Для валидации хэш-тегов вам придётся вспомнить, как работать
-с массивами. Набор хэш-тегов можно превратить в массив, воспользовавшись
-методом split. Он разбивает строки на массивы. После этого, вы можете
-написать цикл, который будет ходить по полученному массиву и проверять
-каждый из хэш-тегов на предмет соответствия ограничениям. Если хотя бы один
-из тегов не проходит нужных проверок, можно воспользоваться методом
-setCustomValidity для того, чтобы задать полю правильное сообщение об ошибке.
-*/
-
-/*
-        Хэш-теги:
-// хэш-тег начинается с символа # (решётка);
-строка после решётки должна состоять из букв и чисел и
-не может содержать пробелы, спецсимволы (#, @, $ и т. п.),
-символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;
-хеш-тег не может состоять только из одной решётки;
-// максимальная длина одного хэш-тега 20 символов, включая решётку;
-хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
-// хэш-теги разделяются пробелами;
-один и тот же хэш-тег не может быть использован дважды;
- ? нельзя указать больше пяти хэш-тегов;
-
-*/
+  hashtagField.addEventListener('blur', function () {
+    document.addEventListener('keydown', onPopupEscPress);
+  }, true);

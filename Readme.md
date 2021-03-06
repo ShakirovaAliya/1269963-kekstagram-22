@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Алия Шакирова](https://up.htmlacademy.ru/javascript/22/user/1269963).
-* Наставник: [Федор Арбузов](https://htmlacademy.ru/profile/id593785).
+* Наставник: [Сергей Титаков](https://htmlacademy.ru/profile/id1243803).
 
 ---
 
