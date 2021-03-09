@@ -1,3 +1,4 @@
+let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let scale = document.querySelector('.scale');
 let scaleControlSmaller = scale.querySelector('.scale__control--smaller');
 let scaleControlBigger = scale.querySelector('.scale__control--bigger');
@@ -9,6 +10,8 @@ let currentScaleValue = 100;
 let maxScaleValue = 100;
 let minScaleValue = 25;
 scaleControlValue.value = currentScaleValue + '%';
+
+// изменение размера фото (шаг 25)
 
 scaleControlSmaller.addEventListener('click', function () {
   let scaleValue = currentScaleValue;
@@ -32,6 +35,8 @@ scaleControlBigger.addEventListener('click', function () {
   return currentScaleValue;
 });
 
+// фильтры
+
 for (let i = 0; i < effectsRadio.length; i++) {
   let checkedRadio = effectsRadio[i];
   let radioValue = checkedRadio.value;
@@ -44,6 +49,8 @@ for (let i = 0; i < effectsRadio.length; i++) {
     imgUpload.classList.add(newClassName);
   })
 }
+
+// слайдер
 
 let sliderElement = document.querySelector('.effect-level__slider');
 let valueElement = document.querySelector('.effect-level__value');
@@ -127,3 +134,5 @@ if (imgUpload.classList.contains('effects__preview--phobos')) {
   });
   imgUpload.style.filter = 'blur(0..3px)';
 }
+
+export {valueElement};

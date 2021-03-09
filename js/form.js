@@ -1,6 +1,7 @@
 //upload
 import { pageBody } from './big-photo.js';
 import { sendData } from './api.js';
+import { valueElement } from './photo-correction.js';
 
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -22,6 +23,7 @@ const toCloseForm = function () {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
+  valueElement.value = 1;
   imgUploadOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscPress);
@@ -48,6 +50,7 @@ let uploadSuccess = function () {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
+  valueElement.value = 1;
 
   let successElement = document.querySelector('.success__element');
   let successButton = successElement.querySelector('.success__button');
@@ -76,6 +79,7 @@ let uploadError = function () {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
+  valueElement.value = 1;
 
   let errorElement = document.querySelector('.error__element');
   let errorButton = errorElement.querySelector('.error__button');

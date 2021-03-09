@@ -18,4 +18,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export {sendData};
+export { sendData };
