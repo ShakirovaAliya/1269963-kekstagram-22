@@ -56,7 +56,7 @@ let uploadSuccess = function () {
   };
   successButton.addEventListener('click', uploadFormSuccess);
   document.addEventListener('click', uploadFormSuccess);
-  document.addEventListener('keydown', function(evt) {
+  document.addEventListener('keydown', function (evt) {
     if (evt.key === ('Escape' || 'Esc')) {
       evt.preventDefault();
       successElement.remove();
@@ -84,7 +84,7 @@ let uploadError = function () {
   };
   errorButton.addEventListener('click', uploadFormError);
   document.addEventListener('click', uploadFormError);
-  document.addEventListener('keydown', function(evt) {
+  document.addEventListener('keydown', function (evt) {
     if (evt.key === ('Escape' || 'Esc')) {
       evt.preventDefault();
       errorElement.remove();
@@ -94,15 +94,15 @@ let uploadError = function () {
 };
 
 // отправка формы
-const setFormSubmit = (onSuccess) => {
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  sendData(
-    () => uploadSuccess(),
-    () => uploadError(),
-    new FormData(evt.target),
-  );
-})
+const setFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      () => uploadSuccess(),
+      () => uploadError(),
+      new FormData(evt.target),
+    );
+  })
 };
 
 // задание 6.2
@@ -174,4 +174,4 @@ hashtagField.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-export {setFormSubmit, toCloseForm};
+export { setFormSubmit, toCloseForm };
