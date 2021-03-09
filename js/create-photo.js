@@ -1,20 +1,20 @@
 //  создание массива из 25 сгенерированных объектов
 
-import {getRandomIntInclusive} from './util.js';
+// import { getRandomIntInclusive } from './util.js';
 
 const PHOTO_COUNT = 25;
-const namesArray = ['Артем', 'Иван', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+// const namesArray = ['Артем', 'Иван', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 
-let createPhoto = function(count) {
+/*let createPhoto = function (count) {
   let photoArray = [];
   let commentsArray = [];
-  let nameIndex = getRandomIntInclusive(0, namesArray.length-1);
+  let nameIndex = getRandomIntInclusive(0, namesArray.length - 1);
   let avatarIndex = getRandomIntInclusive(1, 6);
   let photoUrlIndex = getRandomIntInclusive(1, 25);
-  for (let j=0; j < 50; j++) {
+  for (let j = 0; j < 50; j++) {
     commentsArray.push({
       id: getRandomIntInclusive(1, 1000),
-      avatar: 'img/avatar-'+ avatarIndex + '.svg',
+      avatar: 'img/avatar-' + avatarIndex + '.svg',
       message: 'Всё отлично!',
       name: namesArray[nameIndex],
     })
@@ -31,38 +31,27 @@ let createPhoto = function(count) {
   }
   return photoArray;
 };
+*/
 
-const createPhotos = () => new Array(PHOTO_COUNT).fill(null).map(() => createPhoto());
-const similarPhotos = createPhotos();
+// const createPhotos = () => new Array(PHOTO_COUNT).fill(null).map(() => createPhoto());
+// const similarPhotos = createPhotos();
 const similarPictureBlock = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const similarPhotoFragment = document.createDocumentFragment();
 
-similarPhotos.forEach((foto) => {
-  const pictureElement = similarPictureTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture__img').src = foto.url;
-  pictureElement.querySelector('.picture__likes').textContent = foto.likes;
-  pictureElement.querySelector('.picture__comments').textContent = foto.comments;
-  pictureElement.dataset.id = foto.id;
-  similarPhotoFragment.appendChild(pictureElement);
-});
-
-similarPictureBlock.appendChild(similarPhotoFragment);
-
-export {similarPhotos};
-
-/*
-const renderSimilarList = (similarWizards) => {
+const renderSimilarList = (similarPhotos) => {
   const similarListFragment = document.createDocumentFragment();
 
-  similarWizards.forEach(({name, coatColor, eyesColor}) => {
-    const wizardElement = similarWizardTemplate.cloneNode(true);
-    wizardElement.querySelector('.setup-similar-label').textContent = name;
-    wizardElement.querySelector('.wizard-coat').style.fill = coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = eyesColor;
-    similarListFragment.appendChild(wizardElement);
+  similarPhotos.forEach((foto) => {
+    const pictureElement = similarPictureTemplate.cloneNode(true);
+    pictureElement.querySelector('.picture__img').src = foto.url;
+    pictureElement.querySelector('.picture__likes').textContent = foto.likes;
+    pictureElement.querySelector('.picture__comments').textContent = foto.comments;
+    pictureElement.dataset.id = foto.id;
+    similarPhotoFragment.appendChild(pictureElement);
   });
 
-  similarListElement.appendChild(similarListFragment);
+  similarPictureBlock.appendChild(similarPhotoFragment);
 };
-*/
+
+export { renderSimilarList, PHOTO_COUNT };
