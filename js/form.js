@@ -1,7 +1,6 @@
-//upload
 import { pageBody } from './big-photo.js';
 import { sendData } from './api.js';
-import { valueElement } from './photo-correction.js';
+import { valueElement, scaleControlValue, imgUpload } from './photo-correction.js';
 
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -12,6 +11,15 @@ let commentField = document.querySelector('.text__description');
 let hashtagField = document.querySelector('.text__hashtags'); // инпут
 
 // открытие-закрытие формы
+const toClearForm = function() {
+  imgUploadInput.value = '';
+  hashtagField.value = '';
+  commentField.value = '';
+  valueElement.value = 1;
+  scaleControlValue.value = 100 + '%';
+  imgUpload.style.transform = 'scale(1)';
+  imgUpload.classList.add('effects__preview--none');
+}
 
 const toOpenForm = function () {
   imgUploadOverlay.classList.remove('hidden');
@@ -20,10 +28,7 @@ const toOpenForm = function () {
 };
 
 const toCloseForm = function () {
-  imgUploadInput.value = '';
-  hashtagField.value = '';
-  commentField.value = '';
-  valueElement.value = 1;
+  toClearForm();
   imgUploadOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscPress);
@@ -47,11 +52,7 @@ let uploadSuccess = function () {
   successMessageElement.classList.add('success__element');
   tagMain.appendChild(successMessageElement);
   imgUploadOverlay.classList.add('hidden');
-  imgUploadInput.value = '';
-  hashtagField.value = '';
-  commentField.value = '';
-  valueElement.value = 1;
-
+  toClearForm();
   let successElement = document.querySelector('.success__element');
   let successButton = successElement.querySelector('.success__button');
   let uploadFormSuccess = function () {
@@ -76,11 +77,7 @@ let uploadError = function () {
   errorMessageElement.classList.add('error__element');
   tagMain.appendChild(errorMessageElement);
   imgUploadOverlay.classList.add('hidden');
-  imgUploadInput.value = '';
-  hashtagField.value = '';
-  commentField.value = '';
-  valueElement.value = 1;
-
+  toClearForm();
   let errorElement = document.querySelector('.error__element');
   let errorButton = errorElement.querySelector('.error__button');
   let uploadFormError = function () {

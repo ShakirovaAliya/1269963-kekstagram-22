@@ -135,4 +135,4 @@ if (imgUpload.classList.contains('effects__preview--phobos')) {
   imgUpload.style.filter = 'blur(0..3px)';
 }
 
-export {valueElement};
+export {valueElement, scaleControlValue, imgUpload};
