@@ -1,4 +1,5 @@
 //upload
+import { sendData } from './api.js';
 import { pageBody } from './big-photo.js';
 
 let imgUploadInput = document.querySelector('#upload-file');
@@ -6,9 +7,10 @@ let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
 let form = document.querySelector('.img-upload__form');
 
-form.addEventListener('submit', function(evt) {
-  evt.preventDefault();
-})
+form.onsubmit = function(evt) {
+evt.preventDefault();
+sendData(function(d){ console.log(d)}, function(d2){ console.log(d2)}, new FormData(form))
+}
 
 let onPopupEscPress = function (evt) {
   if (evt.key === ('Escape' || 'Esc')) {
@@ -85,7 +87,9 @@ let valueElement = document.querySelector('.effect-level__value');
 valueElement.value = 1;
 
 window.onload = function() {
+  console.log(sliderElement);
     sliderElement.noUiSlider.on('update', (values, handle) => {
+      console.log(values, handle);
       valueElement.value = values[handle]
     });
 };

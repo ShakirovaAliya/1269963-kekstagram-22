@@ -2,6 +2,7 @@
 import {getId} from './big-photo.js';
 // import {commentField, MAX_COMMENT_LENGTH} from './check-length.js';
 import './upload-form.js';
+import './api.js';
 
 // checkCommentLenght(commentField, MAX_COMMENT_LENGTH);
 document.addEventListener('click', getId);
