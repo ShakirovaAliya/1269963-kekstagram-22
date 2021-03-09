@@ -4,6 +4,11 @@ import { pageBody } from './big-photo.js';
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
+let form = document.querySelector('.img-upload__form');
+
+form.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+})
 
 let onPopupEscPress = function (evt) {
   if (evt.key === ('Escape' || 'Esc')) {
@@ -79,6 +84,12 @@ let sliderElement = document.querySelector('.effect-level__slider');
 let valueElement = document.querySelector('.effect-level__value');
 valueElement.value = 1;
 
+window.onload = function() {
+    sliderElement.noUiSlider.on('update', (values, handle) => {
+      valueElement.value = values[handle]
+    });
+};
+
 if (imgUploadOverlay.className !== 'hidden') {
   noUiSlider.create(sliderElement, {
     range: {
@@ -99,9 +110,6 @@ if (imgUploadOverlay.className !== 'hidden') {
         return parseFloat(value);
       },
     },
-  });
-  sliderElement.noUiSlider.on('update', (values, handle) => {
-    valueElement.value = values[handle]
   });
 }
 
@@ -164,11 +172,11 @@ let checkHashtag = function () {
     let hashtags = hashtagField.value.split(' ');
     hashtags.length = 5;
     if (hashtags) {
-      console.log(hashtags) // массив из слов
+      // console.log(hashtags) // массив из слов
       for (let j = 0; j < hashtags.length; j++) {
         let hashtag = hashtags[j];
-        console.log(hashtag); // слово
-         //  hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
+        // console.log(hashtag); // слово
+        //  hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
         if (hashtag) {
           let letters = hashtag.split(''); // массив из букв
           if (letters[0] !== '#') {
@@ -179,45 +187,45 @@ let checkHashtag = function () {
         }
       }
     }
-  };
+  }
 };
 
-  commentField.addEventListener('input', () => {
-    const valueLength = commentField.value.length;
-    if (valueLength > MAX_COMMENT_LENGTH) {
-      commentField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_COMMENT_LENGTH) + ' симв.');
-    } else {
-      commentField.setCustomValidity('');
-    }
-    commentField.reportValidity();
-  });
+commentField.addEventListener('input', () => {
+  const valueLength = commentField.value.length;
+  if (valueLength > MAX_COMMENT_LENGTH) {
+    commentField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_COMMENT_LENGTH) + ' симв.');
+  } else {
+    commentField.setCustomValidity('');
+  }
+  commentField.reportValidity();
+});
 
-  commentField.addEventListener('focus', function () {
-    document.removeEventListener('keydown', onPopupEscPress);
-  }, true);
+commentField.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+}, true);
 
-  commentField.addEventListener('blur', function () {
-    document.addEventListener('keydown', onPopupEscPress);
-  }, true);
+commentField.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
+}, true);
 
 
-  hashtagField.addEventListener('input', () => {
-    const valueLength = hashtagField.value.length;
-    if (valueLength < MIN_HASHTAG_FIELD_LENGTH) {
-      hashtagField.setCustomValidity('Ещё ' + (MIN_HASHTAG_FIELD_LENGTH - valueLength) + ' симв.');
-    } else if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
-      hashtagField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_FIELD_LENGTH) + ' симв.');
-    } else {
-      hashtagField.setCustomValidity('');
-    }
-    hashtagField.reportValidity();
-    checkHashtag();
-  });
+hashtagField.addEventListener('input', () => {
+  const valueLength = hashtagField.value.length;
+  if (valueLength < MIN_HASHTAG_FIELD_LENGTH) {
+    hashtagField.setCustomValidity('Ещё ' + (MIN_HASHTAG_FIELD_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
+    hashtagField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_FIELD_LENGTH) + ' симв.');
+  } else {
+    hashtagField.setCustomValidity('');
+  }
+  hashtagField.reportValidity();
+  checkHashtag();
+});
 
-  hashtagField.addEventListener('focus', function () {
-    document.removeEventListener('keydown', onPopupEscPress);
-  }, true);
+hashtagField.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+}, true);
 
-  hashtagField.addEventListener('blur', function () {
-    document.addEventListener('keydown', onPopupEscPress);
-  }, true);
+hashtagField.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
+}, true);

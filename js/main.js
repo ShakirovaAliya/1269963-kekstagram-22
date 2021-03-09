@@ -5,3 +5,9 @@ import './upload-form.js';
 
 // checkCommentLenght(commentField, MAX_COMMENT_LENGTH);
 document.addEventListener('click', getId);
+
+fetch('https://22.javascript.pages.academy/kekstagram/data')
+  .then((response) => response.json())
+  .then((smallPhotos) => {
+    console.log(smallPhotos);
+  });
