@@ -1,40 +1,3 @@
-//upload
-import { sendData } from './api.js';
-import { pageBody } from './big-photo.js';
-
-let imgUploadInput = document.querySelector('#upload-file');
-let imgUploadOverlay = document.querySelector('.img-upload__overlay');
-let uploadCancel = document.querySelector('#upload-cancel');
-let form = document.querySelector('.img-upload__form');
-
-form.onsubmit = function(evt) {
-evt.preventDefault();
-sendData(function(d){ console.log(d)}, function(d2){ console.log(d2)}, new FormData(form))
-}
-
-let onPopupEscPress = function (evt) {
-  if (evt.key === ('Escape' || 'Esc')) {
-    evt.preventDefault();
-    toCloseForm();
-  }
-};
-
-let toOpenForm = function () {
-  imgUploadOverlay.classList.remove('hidden');
-  pageBody.classList.add('modal-open');
-  document.addEventListener('keydown', onPopupEscPress);
-};
-
-let toCloseForm = function () {
-  imgUploadInput.value = '';
-  imgUploadOverlay.classList.add('hidden');
-  pageBody.classList.remove('modal-open');
-  document.removeEventListener('keydown', onPopupEscPress);
-};
-
-imgUploadInput.addEventListener('input', toOpenForm);
-uploadCancel.addEventListener('click', toCloseForm);
-
 let scale = document.querySelector('.scale');
 let scaleControlSmaller = scale.querySelector('.scale__control--smaller');
 let scaleControlBigger = scale.querySelector('.scale__control--bigger');
@@ -86,6 +49,7 @@ let sliderElement = document.querySelector('.effect-level__slider');
 let valueElement = document.querySelector('.effect-level__value');
 valueElement.value = 1;
 
+/*
 window.onload = function() {
   console.log(sliderElement);
     sliderElement.noUiSlider.on('update', (values, handle) => {
@@ -93,6 +57,7 @@ window.onload = function() {
       valueElement.value = values[handle]
     });
 };
+*/
 
 if (imgUploadOverlay.className !== 'hidden') {
   noUiSlider.create(sliderElement, {
@@ -162,74 +127,3 @@ if (imgUpload.classList.contains('effects__preview--phobos')) {
   });
   imgUpload.style.filter = 'blur(0..3px)';
 }
-
-
-// задание 6.2
-const MAX_COMMENT_LENGTH = 140;
-const MIN_HASHTAG_FIELD_LENGTH = 2;
-const MAX_HASHTAG_FIELD_LENGTH = 104;
-let commentField = document.querySelector('.text__description');
-let hashtagField = document.querySelector('.text__hashtags'); // инпут
-
-let checkHashtag = function () {
-  if (hashtagField.value !== '') {
-    let hashtags = hashtagField.value.split(' ');
-    hashtags.length = 5;
-    if (hashtags) {
-      // console.log(hashtags) // массив из слов
-      for (let j = 0; j < hashtags.length; j++) {
-        let hashtag = hashtags[j];
-        // console.log(hashtag); // слово
-        //  hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
-        if (hashtag) {
-          let letters = hashtag.split(''); // массив из букв
-          if (letters[0] !== '#') {
-            hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
-          } else {
-            hashtagField.setCustomValidity('');
-          }
-        }
-      }
-    }
-  }
-};
-
-commentField.addEventListener('input', () => {
-  const valueLength = commentField.value.length;
-  if (valueLength > MAX_COMMENT_LENGTH) {
-    commentField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_COMMENT_LENGTH) + ' симв.');
-  } else {
-    commentField.setCustomValidity('');
-  }
-  commentField.reportValidity();
-});
-
-commentField.addEventListener('focus', function () {
-  document.removeEventListener('keydown', onPopupEscPress);
-}, true);
-
-commentField.addEventListener('blur', function () {
-  document.addEventListener('keydown', onPopupEscPress);
-}, true);
-
-
-hashtagField.addEventListener('input', () => {
-  const valueLength = hashtagField.value.length;
-  if (valueLength < MIN_HASHTAG_FIELD_LENGTH) {
-    hashtagField.setCustomValidity('Ещё ' + (MIN_HASHTAG_FIELD_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
-    hashtagField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_FIELD_LENGTH) + ' симв.');
-  } else {
-    hashtagField.setCustomValidity('');
-  }
-  hashtagField.reportValidity();
-  checkHashtag();
-});
-
-hashtagField.addEventListener('focus', function () {
-  document.removeEventListener('keydown', onPopupEscPress);
-}, true);
-
-hashtagField.addEventListener('blur', function () {
-  document.addEventListener('keydown', onPopupEscPress);
-}, true);
