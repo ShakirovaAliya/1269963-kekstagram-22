@@ -8,7 +8,7 @@ let uploadCancel = document.querySelector('#upload-cancel');
 let form = document.querySelector('.img-upload__form');
 let tagMain = document.querySelector('main');
 let commentField = document.querySelector('.text__description');
-let hashtagField = document.querySelector('.text__hashtags'); // инпут
+let hashtagField = document.querySelector('.text__hashtags');
 
 // открытие-закрытие формы
 const toClearForm = function() {
@@ -111,30 +111,6 @@ const MAX_COMMENT_LENGTH = 140;
 const MIN_HASHTAG_FIELD_LENGTH = 2;
 const MAX_HASHTAG_FIELD_LENGTH = 104;
 
-
-let checkHashtag = function () {
-  if (hashtagField.value !== '') {
-    let hashtags = hashtagField.value.split(' ');
-    hashtags.length = 5;
-    if (hashtags) {
-      // console.log(hashtags) // массив из слов
-      for (let j = 0; j < hashtags.length; j++) {
-        let hashtag = hashtags[j];
-        // console.log(hashtag); // слово
-        //  hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
-        if (hashtag) {
-          let letters = hashtag.split(''); // массив из букв
-          if (letters[0] !== '#') {
-            hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
-          } else {
-            hashtagField.setCustomValidity('');
-          }
-        }
-      }
-    }
-  }
-};
-
 commentField.addEventListener('input', () => {
   const valueLength = commentField.value.length;
   if (valueLength > MAX_COMMENT_LENGTH) {
@@ -153,6 +129,51 @@ commentField.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
+let checkHashtag = function () {
+  if (hashtagField.value !== '') {
+    let hashtags = hashtagField.value.split(' ');
+    hashtags.length = 5;
+    if (hashtags) {
+      for (let j = 0; j < hashtags.length; j++) {
+        let hashtag = hashtags[j];
+        console.log(hashtags);
+        console.log(hashtag); // слово
+        if (hashtag) {
+          let letters = hashtag.split(''); // массив из букв
+          if(letters[0] !== '#') {
+            hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
+          } else {
+            hashtagField.setCustomValidity('');
+          }
+          for(let k=1; k<letters.length; k++) {
+            if(letters[k] = Symbol) {
+              hashtagField.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
+            } else {
+              hashtagField.setCustomValidity('');
+            }
+          }
+          if(letters.length > 20) {
+            hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
+          }
+          }
+        }
+      }
+    }
+};
+
+/* ??????????????????
+
+if(letters[k] === '#' || letters[k] === '@' || letters[k] === '$') {
+  hashtagField.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
+}
+
+строка после решётки должна состоять из букв и чисел и не может содержать пробелы,
+спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.),
+эмодзи и т. д.;
+хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
+один и тот же хэш-тег не может быть использован дважды;
+нельзя указать больше пяти хэш-тегов;
+*/
 
 hashtagField.addEventListener('input', () => {
   const valueLength = hashtagField.value.length;
@@ -163,8 +184,8 @@ hashtagField.addEventListener('input', () => {
   } else {
     hashtagField.setCustomValidity('');
   }
-  hashtagField.reportValidity();
   checkHashtag();
+  hashtagField.reportValidity();
 });
 
 hashtagField.addEventListener('focus', function () {
