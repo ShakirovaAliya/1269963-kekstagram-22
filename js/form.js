@@ -11,7 +11,7 @@ let commentField = document.querySelector('.text__description');
 let hashtagField = document.querySelector('.text__hashtags');
 
 // открытие-закрытие формы
-const toClearForm = function() {
+const toClearForm = function () {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
@@ -140,25 +140,25 @@ let checkHashtag = function () {
         console.log(hashtag); // слово
         if (hashtag) {
           let letters = hashtag.split(''); // массив из букв
-          if(letters[0] !== '#') {
+          if (letters[0] !== '#') {
             hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
           } else {
             hashtagField.setCustomValidity('');
           }
-          for(let k=1; k<letters.length; k++) {
-            if(letters[k] = Symbol) {
+          for (let k = 1; k < letters.length; k++) {
+            if (letters[k] = Symbol) {
               hashtagField.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
             } else {
               hashtagField.setCustomValidity('');
             }
           }
-          if(letters.length > 20) {
+          if (letters.length > 20) {
             hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
-          }
           }
         }
       }
     }
+  }
 };
 
 /* ??????????????????

@@ -89,7 +89,7 @@ if (imgUploadOverlay.className !== 'hidden') {
   });
 }
 
-if (imgUpload.classList.contains('effects__preview--none')) {
+/*if (imgUpload.classList.contains('effects__preview--none')) {
   // sliderElement.noUiSlider.destroy();
 
 } else {
@@ -102,6 +102,7 @@ if (imgUpload.classList.contains('effects__preview--none')) {
     }
   })
 }
+*/
 
 if (imgUpload.classList.contains('effects__preview--chrome')) {
   imgUpload.style.filter = 'grayscale(0..1)';
