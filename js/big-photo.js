@@ -14,7 +14,7 @@ let createBigPicture = function (bigFoto) {
   let socialText = bigPicture.querySelector('.social__text');
   socialPicture.innerHTML = '';
   socialText.textContent = '';
-  socialPicture.innerHTML += '<img src="' + bigFoto.comments.avatar + 'class="social__picture" width="35" height="35" alt="' + bigFoto.comments.name + '">';
+  socialPicture.innerHTML = '<img src="' + bigFoto.comments.avatar + 'class="social__picture" width="35" height="35" alt="' + bigFoto.comments.name + '">';
   socialText.textContent += bigFoto.comments.message;
   commentCount.classList.add('hidden');
   commentsLoader.classList.add('hidden');
@@ -33,6 +33,7 @@ let closePopup = function () {
 };
 
 bigPictureCancel.addEventListener('click', closePopup);
+
 document.addEventListener('keydown', function (evt) {
   if (evt.key === ('Escape' || 'Esc')) {
     evt.preventDefault;
@@ -40,6 +41,7 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
+/*
 let getId = function (evt) {
   let target = evt.target;
   let dataPicture;
@@ -51,6 +53,7 @@ let getId = function (evt) {
     createBigPicture(dataPicture);
   }
 };
+*/
 
-export { getId, pageBody };
+export { createBigPicture, pageBody };
 

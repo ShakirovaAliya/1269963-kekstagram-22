@@ -1,11 +1,13 @@
 //  создание массива из 25 сгенерированных объектов
 
 // import { getRandomIntInclusive } from './util.js';
+import { createBigPicture } from './big-photo.js';
 
 const PHOTO_COUNT = 25;
 // const namesArray = ['Артем', 'Иван', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 
-/*let createPhoto = function (count) {
+/*
+let createPhoto = function (count) {
   let photoArray = [];
   let commentsArray = [];
   let nameIndex = getRandomIntInclusive(0, namesArray.length - 1);
@@ -37,10 +39,10 @@ const PHOTO_COUNT = 25;
 // const similarPhotos = createPhotos();
 const similarPictureBlock = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const similarPhotoFragment = document.createDocumentFragment();
 
 const renderSimilarList = (similarPhotos) => {
-  const similarListFragment = document.createDocumentFragment();
+  const similarPhotoFragment = document.createDocumentFragment();
+
 
   similarPhotos.forEach((foto) => {
     const pictureElement = similarPictureTemplate.cloneNode(true);
@@ -49,9 +51,11 @@ const renderSimilarList = (similarPhotos) => {
     pictureElement.querySelector('.picture__comments').textContent = foto.comments;
     pictureElement.dataset.id = foto.id;
     similarPhotoFragment.appendChild(pictureElement);
+    pictureElement.addEventListener('click', function() {
+      createBigPicture(foto);
+    });
   });
-
   similarPictureBlock.appendChild(similarPhotoFragment);
-};
 
+};
 export { renderSimilarList, PHOTO_COUNT };
