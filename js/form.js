@@ -1,7 +1,7 @@
 import { pageBody } from './big-photo.js';
 import { sendData } from './api.js';
-import { valueElement, scaleControlValue, imgUpload } from './photo-correction.js';
-
+import { scaleControlValue, imgUpload } from './photo-correction.js';
+// let valueElement = document.querySelector('.effect-level__value');
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
@@ -15,7 +15,7 @@ const toClearForm = function () {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
-  valueElement.value = 1;
+  // valueElement.value = 1;
   scaleControlValue.value = 100 + '%';
   imgUpload.style.transform = 'scale(1)';
   imgUpload.classList.add('effects__preview--none');

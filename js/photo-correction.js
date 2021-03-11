@@ -10,6 +10,7 @@ let currentScaleValue = 100;
 let maxScaleValue = 100;
 let minScaleValue = 25;
 scaleControlValue.value = currentScaleValue + '%';
+let formFieldset = document.querySelector('.img-upload__effect-level');
 
 // изменение размера фото (шаг 25)
 
@@ -52,21 +53,12 @@ for (let i = 0; i < effectsRadio.length; i++) {
 
 // слайдер
 
-let sliderElement = document.querySelector('.effect-level__slider');
-let valueElement = document.querySelector('.effect-level__value');
+let sliderElement = formFieldset.querySelector('.effect-level__slider');
+let valueElement = formFieldset.querySelector('.effect-level__value');
 valueElement.value = 1;
 
-/*
-window.onload = function() {
-  console.log(sliderElement);
-    sliderElement.noUiSlider.on('update', (values, handle) => {
-      console.log(values, handle);
-      valueElement.value = values[handle]
-    });
-};
-*/
+if(imgUploadOverlay.className !== 'hidden') {
 
-if (imgUploadOverlay.className !== 'hidden') {
   noUiSlider.create(sliderElement, {
     range: {
       min: 0,
@@ -87,6 +79,11 @@ if (imgUploadOverlay.className !== 'hidden') {
       },
     },
   });
+  sliderElement.noUiSlider.on('update', (values, handle) => {
+    console.log(values, handle);
+    valueElement.value = values[handle];
+  });
+
 }
 
 /*if (imgUpload.classList.contains('effects__preview--none')) {
@@ -136,4 +133,4 @@ if (imgUpload.classList.contains('effects__preview--phobos')) {
   imgUpload.style.filter = 'blur(0..3px)';
 }
 
-export {valueElement, scaleControlValue, imgUpload};
+export { scaleControlValue, imgUpload };
