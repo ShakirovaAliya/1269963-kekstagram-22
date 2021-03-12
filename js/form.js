@@ -1,6 +1,7 @@
 import { pageBody } from './big-photo.js';
 import { sendData } from './api.js';
 import { scaleControlValue, imgUpload } from './photo-correction.js';
+
 // let valueElement = document.querySelector('.effect-level__value');
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -129,24 +130,39 @@ commentField.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
+/*let unique = function (arr) {
+  let result = [];
+
+  for (let str of arr) {
+    if (!result.includes(str)) {
+      result.push(str);
+    }
+  }
+
+  return result;
+}
+*/
+
 let checkHashtag = function () {
   if (hashtagField.value !== '') {
     let hashtags = hashtagField.value.split(' ');
     hashtags.length = 5;
-    if (hashtags) {
-      for (let j = 0; j < hashtags.length; j++) {
-        let hashtag = hashtags[j];
-        console.log(hashtags);
-        console.log(hashtag); // слово
-        if (hashtag) {
-          let letters = hashtag.split(''); // массив из букв
-          if (letters[0] !== '#') {
-            hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
+    for (let j = 0; j < hashtags.length; j++) {
+      let hashtag = hashtags[j];
+      console.log(hashtags);
+      console.log(hashtag); // слово
+      if (hashtag) {
+        let letters = hashtag.split(''); // массив из букв
+        for (let k = 0; k < letters.length; k++) {
+          if (k === 0) {
+            if (letters[k] !== '#') {
+              hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
+            } else {
+              hashtagField.setCustomValidity('');
+            }
           } else {
-            hashtagField.setCustomValidity('');
-          }
-          for (let k = 1; k < letters.length; k++) {
-            if (letters[k] = Symbol) {
+            let regex = /[\W]+/g;
+            if (letters[k].match(regex)) {
               hashtagField.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
             } else {
               hashtagField.setCustomValidity('');
@@ -161,15 +177,9 @@ let checkHashtag = function () {
   }
 };
 
-/* ??????????????????
 
-if(letters[k] === '#' || letters[k] === '@' || letters[k] === '$') {
-  hashtagField.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
-}
 
-строка после решётки должна состоять из букв и чисел и не может содержать пробелы,
-спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.),
-эмодзи и т. д.;
+/*
 хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
 один и тот же хэш-тег не может быть использован дважды;
 нельзя указать больше пяти хэш-тегов;
@@ -196,4 +206,4 @@ hashtagField.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-export { setFormSubmit, toCloseForm };
+export { setFormSubmit, toCloseForm }
