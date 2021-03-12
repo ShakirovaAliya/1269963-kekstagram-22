@@ -48,10 +48,10 @@ const renderSimilarList = (similarPhotos) => {
     const pictureElement = similarPictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = foto.url;
     pictureElement.querySelector('.picture__likes').textContent = foto.likes;
-    pictureElement.querySelector('.picture__comments').textContent = foto.comments;
-    pictureElement.dataset.id = foto.id;
+    pictureElement.querySelector('.picture__comments').textContent = foto.comments.length;
+    // pictureElement.dataset.id = foto.id;
     similarPhotoFragment.appendChild(pictureElement);
-    pictureElement.addEventListener('click', function() {
+    pictureElement.addEventListener('click', function () {
       createBigPicture(foto);
     });
   });

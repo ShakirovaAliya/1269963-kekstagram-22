@@ -3,7 +3,7 @@ const getData = (onSuccess) => {
     .then((response) => response.json())
     .then((allFotos) => {
       onSuccess(allFotos);
-    });
+    })
 };
 
 const sendData = (onSuccess, onFail, body) => {

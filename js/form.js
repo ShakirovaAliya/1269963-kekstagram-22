@@ -130,19 +130,6 @@ commentField.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-/*let unique = function (arr) {
-  let result = [];
-
-  for (let str of arr) {
-    if (!result.includes(str)) {
-      result.push(str);
-    }
-  }
-
-  return result;
-}
-*/
-
 let checkHashtag = function () {
   if (hashtagField.value !== '') {
     let hashtags = hashtagField.value.split(' ');
@@ -153,6 +140,11 @@ let checkHashtag = function () {
       console.log(hashtag); // слово
       if (hashtag) {
         let letters = hashtag.split(''); // массив из букв
+        /*
+        if(letters.length < 2 ) {
+          hashtagField.setCustomValidity('хеш-тег не может состоять только из одной решётки');
+         }
+         */
         for (let k = 0; k < letters.length; k++) {
           if (k === 0) {
             if (letters[k] !== '#') {
@@ -180,8 +172,9 @@ let checkHashtag = function () {
 
 
 /*
-хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
 один и тот же хэш-тег не может быть использован дважды;
+хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
+
 нельзя указать больше пяти хэш-тегов;
 */
 
