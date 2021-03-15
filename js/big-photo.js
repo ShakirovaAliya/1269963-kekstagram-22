@@ -37,14 +37,13 @@ let createBigPicture = function (bigFoto) {
       commentElements[k].appendChild(avatarSrc);
       avatarSrc.src = commentAvatar;
       avatarSrc.alt = commmentName;
-      console.log(bigFoto.comments[i].avatar);
+      console.log(bigFoto.comments[k].avatar);
       console.log(avatarSrc.alt);
       let commentText = document.createElement('p');
       commentText.classList.add('social__text');
       commentElements[k].appendChild(commentText);
       commentText.textContent = commmentMessage;
     }
-
   }
   pageBody.classList.add('modal-open');
 
