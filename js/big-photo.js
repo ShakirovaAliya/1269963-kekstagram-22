@@ -1,5 +1,5 @@
 //import {similarPhotos} from './create-photo.js';
-// import {getRandomIntInclusive} from './util.js';
+// import { getRandomIntInclusive } from './util.js';
 let pageBody = document.querySelector('body');
 
 let createBigPicture = function (bigFoto) {
@@ -11,32 +11,45 @@ let createBigPicture = function (bigFoto) {
   bigPicture.querySelector('.likes-count').textContent = bigFoto.likes;
   bigPicture.querySelector('.social__caption').textContent = bigFoto.description;
   bigPicture.querySelector('.comments-count').textContent = bigFoto.comments.length;
-  console.log(bigFoto.comments);
+  console.log(bigFoto.comments); // массив из объектов-комментариев
+
   for (let i = 0; i < bigFoto.comments.length; i++) {
+    console.log(bigFoto.comments[i].avatar);
+    console.log(bigFoto.comments[i].id);
+    console.log(bigFoto.comments[i].name);
+    console.log(bigFoto.comments[i].message);
     let commentAvatar = bigFoto.comments[i].avatar;
-    let commmentText = bigFoto.comments[i].message;
+    let commmentMessage = bigFoto.comments[i].message;
     let commmentName = bigFoto.comments[i].name;
     let commentId = bigFoto.comments[i].id;
-    console.log(commentId);
     let commentList = document.querySelector('.social__comments');
     commentList.innerHTML = '';
     bigFoto.comments.forEach(function () {
       commentList.innerHTML += '<li class="social__comment"></li>';
     });
     let commentElements = commentList.querySelectorAll('.social__comment');
-    for (let f = 0; f < commentElements.length; f++) {
-      let newComment = commentElements[f];
-      newComment.id = commentId;
-      console.log(newComment.id);
-      commentElements[f].innerHTML = '<img class="social__picture" src="' + commentAvatar + '" class="social__picture" width="35" height="35" alt="' + commmentName + '">' + '<p class="social__text">' + commmentText + '</p>';
+    console.log(commentList);
+    for (let k = 0; k < commentElements.length; k++) {
+      commentElements[k].id = commentId;
+      console.log(commentElements[k].id);
+      let avatarSrc = document.createElement('img');
+      avatarSrc.classList.add('social__picture');
+      commentElements[k].appendChild(avatarSrc);
+      avatarSrc.src = commentAvatar;
+      avatarSrc.alt = commmentName;
+      console.log(bigFoto.comments[i].avatar);
+      console.log(avatarSrc.alt);
+      let commentText = document.createElement('p');
+      commentText.classList.add('social__text');
+      commentElements[k].appendChild(commentText);
+      commentText.textContent = commmentMessage;
     }
-  }
 
+  }
   pageBody.classList.add('modal-open');
 
   return bigPicture;
 };
-
 /*
 Все комментарии к изображению выводятся в блок .social__comments.
  Сразу после открытия изображения в полноэкранном режиме отображается

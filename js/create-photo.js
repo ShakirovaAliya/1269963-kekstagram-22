@@ -4,6 +4,7 @@
 import { createBigPicture } from './big-photo.js';
 
 const PHOTO_COUNT = 25;
+const PHOTO_RANDOM_COUNT = 10;
 // const namesArray = ['Артем', 'Иван', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 
 /*
@@ -39,12 +40,24 @@ let createPhoto = function (count) {
 // const similarPhotos = createPhotos();
 const similarPictureBlock = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+let imgFilter = document.querySelector('.img-filters');
+let filterButtonDefault = imgFilter.querySelector('#filter-default');
+let filterButtonRandom = imgFilter.querySelector('#filter-random');
+let filterButtonDiscussed = imgFilter.querySelector('#filter-discussed');
+
+
+const clearSimilarList = () => {
+  let picturesElement= document.querySelectorAll('.picture');
+  picturesElement.forEach((element) => {
+    element.innerHTML = '';
+  })
+};
 
 const renderSimilarList = (similarPhotos) => {
   const similarPhotoFragment = document.createDocumentFragment();
 
-
-  similarPhotos.forEach((foto) => {
+  similarPhotos
+  .forEach((foto) => {
     const pictureElement = similarPictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = foto.url;
     pictureElement.querySelector('.picture__likes').textContent = foto.likes;
@@ -55,7 +68,51 @@ const renderSimilarList = (similarPhotos) => {
       createBigPicture(foto);
     });
   });
+  clearSimilarList();
   similarPictureBlock.appendChild(similarPhotoFragment);
+  console.log(similarPictureBlock);
+}
 
+let setFilterDefault = function() {
+  filterButtonDefault.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    if (!filterButtonDefault.classList.contains('img-filters__button--active')) {
+      filterButtonDefault.classList.add('img-filters__button--active');
+      filterButtonRandom.classList.remove('img-filters__button--active');
+      filterButtonDiscussed.classList.remove('img-filters__button--active');
+    }
+  })
+}
+
+let setFilterRandom = function() {
+  filterButtonRandom.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    if (!filterButtonRandom.classList.contains('img-filters__button--active')) {
+      filterButtonRandom.classList.add('img-filters__button--active');
+      filterButtonDefault.classList.remove('img-filters__button--active');
+      filterButtonDiscussed.classList.remove('img-filters__button--active');
+    }
+  })
+}
+
+let setFilterDiscussed = function() {
+  filterButtonDiscussed.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    if (!filterButtonDiscussed.classList.contains('img-filters__button--active')) {
+      filterButtonDiscussed.classList.add('img-filters__button--active');
+      filterButtonDefault.classList.remove('img-filters__button--active');
+      filterButtonRandom.classList.remove('img-filters__button--active');
+    }
+  })
+}
+
+let sortPhoto = function(a, b) {
+  if(a.comments > b.comments) {
+    return -1;
+  }
+  if(a.likcomments < b.comments) {
+    return 1;
+  }
+  return 0;
 };
-export { renderSimilarList, PHOTO_COUNT };
+export { renderSimilarList, PHOTO_COUNT, PHOTO_RANDOM_COUNT, imgFilter, setFilterDefault, setFilterRandom, setFilterDiscussed, sortPhoto}

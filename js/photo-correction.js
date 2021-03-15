@@ -54,7 +54,7 @@ for (let i = 0; i < effectsRadio.length; i++) {
 // слайдер
 
 let sliderElement = formFieldset.querySelector('.effect-level__slider');
-let valueElement = formFieldset.querySelector('.effect-level__value');
+let valueElement = formFieldset.querySelector('[name="effect-level"]');
 valueElement.value = 1;
 
 if(imgUploadOverlay.className !== 'hidden') {
