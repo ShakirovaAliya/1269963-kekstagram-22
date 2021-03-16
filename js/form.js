@@ -64,7 +64,7 @@ let uploadSuccess = function () {
   document.addEventListener('keydown', function (evt) {
     if (evt.key === ('Escape' || 'Esc')) {
       evt.preventDefault();
-      successElement.remove();
+      uploadFormSuccess();
       document.removeEventListener('click', uploadFormSuccess);
     }
   });
@@ -197,4 +197,4 @@ hashtagField.addEventListener('blur', function () {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-export { setFormSubmit, toCloseForm }
+export { setFormSubmit, toCloseForm, tagMain }

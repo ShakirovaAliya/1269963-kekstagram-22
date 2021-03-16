@@ -57,7 +57,7 @@ let sliderElement = formFieldset.querySelector('.effect-level__slider');
 let valueElement = formFieldset.querySelector('[name="effect-level"]');
 valueElement.value = 1;
 
-if(imgUploadOverlay.className !== 'hidden') {
+if (imgUploadOverlay.className !== 'hidden') {
 
   noUiSlider.create(sliderElement, {
     range: {
