@@ -50,7 +50,8 @@ let toShowFailMessage = function () {
   let errorButton = failElement.querySelector('.error__button');
   errorButton.classList.add('hidden');
   let failTitle = failElement.querySelector('.error__title');
-  failTitle.textContent = 'Ошибка при загрузке фото';
+  failTitle.textContent = 'не удалось загрузить фото :(';
+  failTitle.style.color = '#dc143c';
   let removeFailMessage = function () {
     failElement.remove();
   };
