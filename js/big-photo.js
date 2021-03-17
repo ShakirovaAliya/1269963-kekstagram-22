@@ -1,5 +1,3 @@
-//import {similarPhotos} from './create-photo.js';
-// import { getRandomIntInclusive } from './util.js';
 let pageBody = document.querySelector('body');
 
 let createBigPicture = function (bigFoto) {
@@ -11,44 +9,37 @@ let createBigPicture = function (bigFoto) {
   bigPicture.querySelector('.likes-count').textContent = bigFoto.likes;
   bigPicture.querySelector('.social__caption').textContent = bigFoto.description;
   bigPicture.querySelector('.comments-count').textContent = bigFoto.comments.length;
+
   console.log(bigFoto.comments); // массив из объектов-комментариев
+  let commentList = document.querySelector('.social__comments'); // список комментариев
+  commentList.innerHTML = ''; // очищаем список
 
   for (let i = 0; i < bigFoto.comments.length; i++) {
-    console.log(bigFoto.comments[i].avatar);
-    console.log(bigFoto.comments[i].id);
-    console.log(bigFoto.comments[i].name);
-    console.log(bigFoto.comments[i].message);
+    let commentElement = document.createElement('li');
+    commentElement.classList.add('social__comment');
+    commentList.appendChild(commentElement);
+
     let commentAvatar = bigFoto.comments[i].avatar;
     let commmentMessage = bigFoto.comments[i].message;
     let commmentName = bigFoto.comments[i].name;
-    let commentId = bigFoto.comments[i].id;
-    let commentList = document.querySelector('.social__comments');
-    commentList.innerHTML = '';
-    bigFoto.comments.forEach(function () {
-      commentList.innerHTML += '<li class="social__comment"></li>';
-    });
-    let commentElements = commentList.querySelectorAll('.social__comment');
-    console.log(commentList);
-    for (let k = 0; k < commentElements.length; k++) {
-      commentElements[k].id = commentId;
-      console.log(commentElements[k].id);
-      let avatarSrc = document.createElement('img');
-      avatarSrc.classList.add('social__picture');
-      commentElements[k].appendChild(avatarSrc);
-      avatarSrc.src = commentAvatar;
-      avatarSrc.alt = commmentName;
-      console.log(bigFoto.comments[k].avatar);
-      console.log(avatarSrc.alt);
-      let commentText = document.createElement('p');
-      commentText.classList.add('social__text');
-      commentElements[k].appendChild(commentText);
-      commentText.textContent = commmentMessage;
-    }
+
+    let avatarSrc = document.createElement('img');
+    avatarSrc.classList.add('social__picture');
+    commentElement.appendChild(avatarSrc);
+    avatarSrc.src = commentAvatar;
+    avatarSrc.alt = commmentName;
+
+    let commentText = document.createElement('p');
+    commentText.classList.add('social__text');
+    commentElement.appendChild(commentText);
+    commentText.textContent = commmentMessage;
   }
+
   pageBody.classList.add('modal-open');
 
   return bigPicture;
-};
+}
+
 /*
 Все комментарии к изображению выводятся в блок .social__comments.
  Сразу после открытия изображения в полноэкранном режиме отображается
@@ -96,4 +87,3 @@ let getId = function (evt) {
 */
 
 export { createBigPicture, pageBody };
-

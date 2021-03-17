@@ -42,7 +42,7 @@ const similarPictureTemplate = document.querySelector('#picture').content.queryS
 const renderSimilarList = (similarPhotos) => {
   const similarPhotoFragment = document.createDocumentFragment();
 
-  similarPhotos.slice()
+  similarPhotos
     .forEach((foto) => {
       const pictureElement = similarPictureTemplate.cloneNode(true);
       pictureElement.querySelector('.picture__img').src = foto.url;
