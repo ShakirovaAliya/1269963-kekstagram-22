@@ -2,7 +2,10 @@ import { pageBody } from './big-photo.js';
 import { sendData } from './api.js';
 import { scaleControlValue, imgUpload } from './photo-correction.js';
 
-// let valueElement = document.querySelector('.effect-level__value');
+const MAX_COMMENT_LENGTH = 140;
+const MIN_HASHTAG_FIELD_LENGTH = 2;
+const MAX_HASHTAG_FIELD_LENGTH = 104;
+let valueElement = document.querySelector('.effect-level__value');
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
@@ -12,30 +15,31 @@ let commentField = document.querySelector('.text__description');
 let hashtagField = document.querySelector('.text__hashtags');
 
 // открытие-закрытие формы
-const toClearForm = function () {
+
+const toClearForm = () => {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
-  // valueElement.value = 1;
+  valueElement.value = 1;
   scaleControlValue.value = 100 + '%';
   imgUpload.style.transform = 'scale(1)';
   imgUpload.classList.add('effects__preview--none');
 }
 
-const toOpenForm = function () {
+const toOpenForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   pageBody.classList.add('modal-open');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
-const toCloseForm = function () {
+const toCloseForm = () => {
   toClearForm();
   imgUploadOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-let onPopupEscPress = function (evt) {
+let onPopupEscPress = (evt) => {
   if (evt.key === ('Escape' || 'Esc')) {
     evt.preventDefault();
     toCloseForm();
@@ -47,7 +51,7 @@ uploadCancel.addEventListener('click', toCloseForm);
 
 // сообщение об успешной отправке
 
-let uploadSuccess = function () {
+let uploadSuccess = () => {
   let successMessage = document.querySelector('#success').content.querySelector('.success');
   let successMessageElement = successMessage.cloneNode(true);
   successMessageElement.classList.add('success__element');
@@ -56,15 +60,15 @@ let uploadSuccess = function () {
   toClearForm();
   let successElement = document.querySelector('.success__element');
   let successButton = successElement.querySelector('.success__button');
-  let uploadFormSuccess = function () {
+  let uploadFormSuccess = () => {
     successElement.remove();
   };
   successButton.addEventListener('click', uploadFormSuccess);
   document.addEventListener('click', uploadFormSuccess);
-  document.addEventListener('keydown', function (evt) {
+  document.addEventListener('keydown', (evt) => {
     if (evt.key === ('Escape' || 'Esc')) {
       evt.preventDefault();
-      successElement.remove();
+      uploadFormSuccess();
       document.removeEventListener('click', uploadFormSuccess);
     }
   });
@@ -72,7 +76,7 @@ let uploadSuccess = function () {
 
 // сообщение о неуспешной отправке
 
-let uploadError = function () {
+let uploadError = () => {
   let errorMessage = document.querySelector('#error').content.querySelector('.error');
   let errorMessageElement = errorMessage.cloneNode(true);
   errorMessageElement.classList.add('error__element');
@@ -81,12 +85,12 @@ let uploadError = function () {
   toClearForm();
   let errorElement = document.querySelector('.error__element');
   let errorButton = errorElement.querySelector('.error__button');
-  let uploadFormError = function () {
+  let uploadFormError = () => {
     errorElement.remove();
   };
   errorButton.addEventListener('click', uploadFormError);
   document.addEventListener('click', uploadFormError);
-  document.addEventListener('keydown', function (evt) {
+  document.addEventListener('keydown', (evt) => {
     if (evt.key === ('Escape' || 'Esc')) {
       evt.preventDefault();
       errorElement.remove();
@@ -96,6 +100,7 @@ let uploadError = function () {
 };
 
 // отправка формы
+
 const setFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -107,11 +112,7 @@ const setFormSubmit = () => {
   })
 };
 
-// задание 6.2
-const MAX_COMMENT_LENGTH = 140;
-const MIN_HASHTAG_FIELD_LENGTH = 2;
-const MAX_HASHTAG_FIELD_LENGTH = 104;
-
+// валидация полей ввода хештегов и комментария
 
 commentField.addEventListener('input', () => {
   const valueLength = commentField.value.length;
@@ -123,15 +124,15 @@ commentField.addEventListener('input', () => {
   commentField.reportValidity();
 });
 
-commentField.addEventListener('focus', function () {
+commentField.addEventListener('focus', () => {
   document.removeEventListener('keydown', onPopupEscPress);
 }, true);
 
-commentField.addEventListener('blur', function () {
+commentField.addEventListener('blur', () => {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-let checkHashtag = function () {
+let checkHashtag = () => {
   if (hashtagField.value !== '') {
     let hashtags = hashtagField.value.split(' ');
     if (hashtags.length > 5) {
@@ -147,12 +148,11 @@ let checkHashtag = function () {
       }
       hashtags2.push(hashtag.toLowerCase());
       if (j > 0 && hashtags[j - 1].split('').length < 2) {
-        console.log('ошибка');
         hashtagField.setCustomValidity('хеш-тег не может состоять только из одной решётки');
         return false;
       }
       if (hashtag) {
-        let letters = hashtag.split(''); // массив из букв
+        let letters = hashtag.split('');
         for (let k = 0; k < letters.length; k++) {
           if (k === 0) {
             if (letters[k] !== '#') {
@@ -189,12 +189,12 @@ hashtagField.addEventListener('input', () => {
   hashtagField.reportValidity();
 });
 
-hashtagField.addEventListener('focus', function () {
+hashtagField.addEventListener('focus', () => {
   document.removeEventListener('keydown', onPopupEscPress);
 }, true);
 
-hashtagField.addEventListener('blur', function () {
+hashtagField.addEventListener('blur', () => {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-export { setFormSubmit, toCloseForm }
+export { setFormSubmit, toCloseForm, tagMain }
