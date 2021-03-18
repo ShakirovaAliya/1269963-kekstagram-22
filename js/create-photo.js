@@ -25,7 +25,7 @@ const renderSimilarList = (similarPhotos) => {
   similarPictureBlock.appendChild(similarPhotoFragment);
 }
 
-let sortPhoto = function (a, b) {
+let sortPhoto = (a, b) => {
   if (a.comments > b.comments) {
     return -1;
   }
@@ -35,4 +35,4 @@ let sortPhoto = function (a, b) {
   return 0;
 };
 
-export { renderSimilarList, PHOTO_COUNT, PHOTO_RANDOM_COUNT, sortPhoto }
+export { renderSimilarList, PHOTO_COUNT, PHOTO_RANDOM_COUNT, sortPhoto, similarPictureBlock }

@@ -41,7 +41,7 @@ const sendData = (onSuccess, onFail, body) => {
     });
 }
 
-let toShowFailMessage = function () {
+let toShowFailMessage = () => {
   let failMessage = document.querySelector('#error').content.querySelector('.error');
   let failMessageElement = failMessage.cloneNode(true);
   failMessageElement.classList.add('fail__element');
@@ -57,7 +57,7 @@ let toShowFailMessage = function () {
   };
 
   document.addEventListener('click', removeFailMessage);
-  document.addEventListener('keydown', function (evt) {
+  document.addEventListener('keydown', (evt) => {
     if (evt.key === ('Escape' || 'Esc')) {
       evt.preventDefault();
       removeFailMessage();

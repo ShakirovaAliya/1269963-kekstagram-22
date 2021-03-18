@@ -1,3 +1,5 @@
+const MAX_SCALE_VALUE = 100;
+const MIN_SCALE_VALUE = 25;
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let scale = document.querySelector('.scale');
 let scaleControlSmaller = scale.querySelector('.scale__control--smaller');
@@ -7,30 +9,28 @@ let imgUploadPreview = document.querySelector('.img-upload__preview');
 let imgUpload = imgUploadPreview.querySelector('img');
 let effectsRadio = document.querySelectorAll('.effects__radio');
 let currentScaleValue = 100;
-let maxScaleValue = 100;
-let minScaleValue = 25;
 scaleControlValue.value = currentScaleValue + '%';
 let formFieldset = document.querySelector('.img-upload__effect-level');
 
 // изменение размера фото (шаг 25)
 
-scaleControlSmaller.addEventListener('click', function () {
+scaleControlSmaller.addEventListener('click', () => {
   let scaleValue = currentScaleValue;
-  if (scaleValue > minScaleValue) {
+  if (scaleValue > MIN_SCALE_VALUE) {
     let newValue = scaleValue - 25;
     currentScaleValue = newValue;
-  } else { scaleValue == minScaleValue }
+  } else { scaleValue == MIN_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
   return currentScaleValue;
 });
 
-scaleControlBigger.addEventListener('click', function () {
+scaleControlBigger.addEventListener('click', () => {
   let scaleValue = currentScaleValue;
-  if (scaleValue < maxScaleValue) {
+  if (scaleValue < MAX_SCALE_VALUE) {
     let newValue = scaleValue + 25;
     currentScaleValue = newValue;
-  } else { scaleValue == minScaleValue }
+  } else { scaleValue == MAX_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
   return currentScaleValue;
@@ -80,35 +80,38 @@ if (imgUploadOverlay.className !== 'hidden') {
     },
   });
   sliderElement.noUiSlider.on('update', (values, handle) => {
-    console.log(values, handle);
     valueElement.value = values[handle];
   });
 
 }
 
-/*if (imgUpload.classList.contains('effects__preview--none')) {
-  // sliderElement.noUiSlider.destroy();
+/*sliderElement.noUiSlider.on('update', (values, handle) => {
+  if (imgUpload.classList.contains('effects__preview--marvin')) {
+    valueElement.value = values[handle] + '%';
+  }
+  if (imgUpload.classList.contains('effects__preview--phobos')) {
+    valueElement.value = values[handle] + 'px';
+    console.log(valueElement.value);
+  }
+})
+*/
 
-} else {
-  sliderElement.noUiSlider.on('update', (values, handle) => {
-    if (imgUpload.classList.contains('effects__preview--marvin')) {
-      valueElement.value = values[handle] + '%';
-    }
-    if (imgUpload.classList.contains('effects__preview--phobos')) {
-      valueElement.value = values[handle] + 'px';
-    }
-  })
+/*
+if (imgUpload.classList.contains('effects__preview--none')) {
+  sliderElement.noUiSlider.destroy();
+
 }
 */
 
+imgUpload.style.filter = '';
 if (imgUpload.classList.contains('effects__preview--chrome')) {
-  imgUpload.style.filter = 'grayscale(0..1)';
+  imgUpload.style.filter = 'grayscale(1)';
 }
 if (imgUpload.classList.contains('effects__preview--sepia')) {
-  imgUpload.style.filter = 'sepia(0..1)';
+  imgUpload.style.filter = 'sepia(1)';
 }
 if (imgUpload.classList.contains('effects__preview--heat')) {
-  imgUpload.style.filter = 'brightness(1..3)';
+  imgUpload.style.filter = 'brightness(3)';
 }
 if (imgUpload.classList.contains('effects__preview--marvin')) {
   sliderElement.noUiSlider.updateOptions({

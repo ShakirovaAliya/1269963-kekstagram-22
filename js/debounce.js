@@ -1,15 +1,15 @@
 const DEBOUNCE_INTERVAL = 500;
 
-const debounce = function (func, wait, immediate) {
+const debounce = (func, wait, immediate) => {
   let timeout;
 
-  return function () {
+  return () => {
     const context = this;
-    const args = arguments;
+    //const args = arguments;
 
-    const later = function () {
+    const later = () => {
       timeout = null;
-      if (!immediate) func.apply(context, args);
+      if (!immediate) func.apply(context);
     };
 
     const callNow = immediate && !timeout;
@@ -18,7 +18,7 @@ const debounce = function (func, wait, immediate) {
 
     timeout = setTimeout(later, wait);
 
-    if (callNow) func.apply(context, args);
+    if (callNow) func.apply(context);
   };
 };
 

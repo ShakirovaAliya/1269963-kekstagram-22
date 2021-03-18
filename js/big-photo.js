@@ -1,6 +1,6 @@
 let pageBody = document.querySelector('body');
 
-let createBigPicture = function (bigFoto) {
+let createBigPicture = (bigFoto) => {
   let bigPicture = document.querySelector('.big-picture');
   //let commentCount = bigPicture.querySelector('.social__comment-count');
   let commentsLoader = bigPicture.querySelector('.comments-loader');
@@ -10,9 +10,8 @@ let createBigPicture = function (bigFoto) {
   bigPicture.querySelector('.social__caption').textContent = bigFoto.description;
 
   //console.log(bigFoto.comments); // массив из объектов-комментариев
-  let commentList = document.querySelector('.social__comments'); // список комментариев
-  commentList.innerHTML = ''; // очищаем список
-  console.log(bigFoto.comments);
+  let commentList = document.querySelector('.social__comments');
+  commentList.innerHTML = '';
 
   for (let i = 0; i < bigFoto.comments.length; i++) {
     let commentElement = document.createElement('li');
