@@ -8,13 +8,6 @@ let createBigPicture = function (bigFoto) {
   bigPicture.querySelector('img').src = bigFoto.url;
   bigPicture.querySelector('.likes-count').textContent = bigFoto.likes;
   bigPicture.querySelector('.social__caption').textContent = bigFoto.description;
-  if (bigFoto.comments.length <= 4) {
-    bigPicture.querySelector('.social__comment-count').textContent = bigFoto.comments.length + ' из ' + bigFoto.comments.length + ' комментариев';
-    commentsLoader.classList.add('hidden');
-  } else {
-    bigPicture.querySelector('.social__comment-count').textContent = 5 + ' из ' + bigFoto.comments.length + ' комментариев';
-    commentsLoader.classList.remove('hidden');
-  }
 
   //console.log(bigFoto.comments); // массив из объектов-комментариев
   let commentList = document.querySelector('.social__comments'); // список комментариев
@@ -43,13 +36,23 @@ let createBigPicture = function (bigFoto) {
 
     let comments = bigPicture.querySelectorAll('.social__comment');
 
+    if (bigFoto.comments.length <= 5) {
+      bigPicture.querySelector('.social__comment-count').textContent = bigFoto.comments.length + ' из ' + bigFoto.comments.length + ' комментариев';
+      commentsLoader.classList.add('hidden');
+    } else {
+      bigPicture.querySelector('.social__comment-count').textContent = 5 + ' из ' + bigFoto.comments.length + ' комментариев';
+      commentsLoader.classList.remove('hidden');
+    }
+
+
     for (let j = 5; j < comments.length; j++) {
       comments[j].classList.add('hidden');
 
       if (j >= 5 && j < 10) {
         commentsLoader.addEventListener('click', function () {
           comments[j].classList.remove('hidden');
-          bigPicture.querySelector('.social__comment-count').textContent = 10 + ' из ' + bigFoto.comments.length + ' комментариев';
+          let newIndex = j + 1;
+          bigPicture.querySelector('.social__comment-count').textContent = newIndex + ' из ' + bigFoto.comments.length + ' комментариев';
           return comments[j];
         });
         commentsLoader.removeEventListener('click', function () {
