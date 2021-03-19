@@ -1,18 +1,16 @@
 let pageBody = document.querySelector('body');
 
 let createBigPicture = (bigFoto) => {
+  let openComentCount = 5;
   let bigPicture = document.querySelector('.big-picture');
-  //let commentCount = bigPicture.querySelector('.social__comment-count');
   let commentsLoader = bigPicture.querySelector('.comments-loader');
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('img').src = bigFoto.url;
   bigPicture.querySelector('.likes-count').textContent = bigFoto.likes;
   bigPicture.querySelector('.social__caption').textContent = bigFoto.description;
 
-  //console.log(bigFoto.comments); // массив из объектов-комментариев
   let commentList = document.querySelector('.social__comments');
   commentList.innerHTML = '';
-
   for (let i = 0; i < bigFoto.comments.length; i++) {
     let commentElement = document.createElement('li');
     commentElement.classList.add('social__comment');
@@ -33,8 +31,6 @@ let createBigPicture = (bigFoto) => {
     commentElement.appendChild(commentText);
     commentText.textContent = commmentMessage;
 
-    let comments = bigPicture.querySelectorAll('.social__comment');
-
     if (bigFoto.comments.length <= 5) {
       bigPicture.querySelector('.social__comment-count').textContent = bigFoto.comments.length + ' из ' + bigFoto.comments.length + ' комментариев';
       commentsLoader.classList.add('hidden');
@@ -42,44 +38,32 @@ let createBigPicture = (bigFoto) => {
       bigPicture.querySelector('.social__comment-count').textContent = 5 + ' из ' + bigFoto.comments.length + ' комментариев';
       commentsLoader.classList.remove('hidden');
     }
-
-
-    for (let j = 5; j < comments.length; j++) {
-      comments[j].classList.add('hidden');
-
-      if (j >= 5 && j < 10) {
-        commentsLoader.addEventListener('click', function () {
-          comments[j].classList.remove('hidden');
-          let newIndex = j + 1;
-          bigPicture.querySelector('.social__comment-count').textContent = newIndex + ' из ' + bigFoto.comments.length + ' комментариев';
-          return comments[j];
-        });
-        commentsLoader.removeEventListener('click', function () {
-          comments[j].classList.remove('hidden');
-        });
-      }
-    }
   }
 
+  let comments = bigPicture.querySelectorAll('.social__comment');
+
+  for (let j = 5; j < comments.length; j++) {
+    comments[j].classList.add('hidden');
+  }
+
+  if (openComentCount < comments.length) {
+    commentsLoader.addEventListener('click', function () {
+      let newIndex = Math.min(comments.length, openComentCount + 5);
+      for (let j = openComentCount; j < newIndex; j++) {
+        comments[j].classList.remove('hidden');
+      }
+
+      bigPicture.querySelector('.social__comment-count').textContent = newIndex + ' из ' + bigFoto.comments.length + ' комментариев';
+      openComentCount += 5;
+      if (openComentCount >= comments.length) {
+        commentsLoader.classList.add('hidden');
+      }
+    });
+  }
   pageBody.classList.add('modal-open');
 
   return bigPicture;
 }
-
-/*
-Все комментарии к изображению выводятся в блок .social__comments.
- Сразу после открытия изображения в полноэкранном режиме отображается
- не более 5 комментариев. Пример разметки списка комментариев приведён
- в блоке .social__comments. Комментарий оформляется отдельным элементом
- списка li с классом social__comment. Аватарка автора комментария отображается
- в блоке .social__picture. Имя автора комментария отображается в атрибуте alt
- его аватарки. Текст комментария выводится в блоке .social__text.
-
-Отображение дополнительных комментариев происходит при нажатии на кнопку
- .comments-loader. При нажатии на кнопку отображается не более 5 новых комментариев.
-
-Если все комментарии показаны, кнопку .comments-loader следует скрыть, добавив класс hidden.
-*/
 
 let bigPicture = document.querySelector('.big-picture');
 let bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');

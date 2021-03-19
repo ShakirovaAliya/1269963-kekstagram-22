@@ -16,24 +16,24 @@ let hashtagField = document.querySelector('.text__hashtags');
 
 // открытие-закрытие формы
 
-const toClearForm = () => {
+const resetForm = () => {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
-  valueElement.value = 1;
+  //valueElement.value = 1;
   scaleControlValue.value = 100 + '%';
   imgUpload.style.transform = 'scale(1)';
   imgUpload.classList.add('effects__preview--none');
 }
 
-const toOpenForm = () => {
+const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   pageBody.classList.add('modal-open');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
-const toCloseForm = () => {
-  toClearForm();
+const closeForm = () => {
+  resetForm();
   imgUploadOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscPress);
@@ -42,12 +42,12 @@ const toCloseForm = () => {
 let onPopupEscPress = (evt) => {
   if (evt.key === ('Escape' || 'Esc')) {
     evt.preventDefault();
-    toCloseForm();
+    closeForm();
   }
 };
 
-imgUploadInput.addEventListener('input', toOpenForm);
-uploadCancel.addEventListener('click', toCloseForm);
+imgUploadInput.addEventListener('input', openForm);
+uploadCancel.addEventListener('click', closeForm);
 
 // сообщение об успешной отправке
 
@@ -57,7 +57,7 @@ let uploadSuccess = () => {
   successMessageElement.classList.add('success__element');
   tagMain.appendChild(successMessageElement);
   imgUploadOverlay.classList.add('hidden');
-  toClearForm();
+  resetForm();
   let successElement = document.querySelector('.success__element');
   let successButton = successElement.querySelector('.success__button');
   let uploadFormSuccess = () => {
@@ -82,7 +82,7 @@ let uploadError = () => {
   errorMessageElement.classList.add('error__element');
   tagMain.appendChild(errorMessageElement);
   imgUploadOverlay.classList.add('hidden');
-  toClearForm();
+  resetForm();
   let errorElement = document.querySelector('.error__element');
   let errorButton = errorElement.querySelector('.error__button');
   let uploadFormError = () => {
@@ -197,4 +197,4 @@ hashtagField.addEventListener('blur', () => {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-export { setFormSubmit, toCloseForm, tagMain }
+export { setFormSubmit, closeForm, tagMain }

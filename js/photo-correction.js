@@ -11,7 +11,12 @@ scaleControlValue.value = currentScaleValue + '%';
 let imgUploadPreview = document.querySelector('.img-upload__preview');
 let imgUpload = imgUploadPreview.querySelector('img');
 let effectsRadio = document.querySelectorAll('.effects__radio');
-// let effectNoneRadio = document.querySelector('#effect-none');
+let effectNoneRadio = document.querySelector('#effect-none');
+let effectMarvinRadio = document.querySelector('#effect-marvin');
+let effectPhobosRadio = document.querySelector('#effect-phobos');
+let effectHeatRadio = document.querySelector('#effect-heat');
+let effectChromeRadio = document.querySelector('#effect-chrome');
+let effectSepiaRadio = document.querySelector('#effect-sepia');
 let formFieldset = document.querySelector('.img-upload__effect-level');
 let sliderElement = formFieldset.querySelector('.effect-level__slider');
 let valueElement = formFieldset.querySelector('[name="effect-level"]');
@@ -41,107 +46,112 @@ scaleControlBigger.addEventListener('click', () => {
 });
 
 // фильтры
-
+let selectFilter = '';
 for (let i = 0; i < effectsRadio.length; i++) {
   let checkedRadio = effectsRadio[i];
   let radioValue = checkedRadio.value;
   let newClassName = 'effects__preview--' + radioValue;
-  checkedRadio.addEventListener('click', function () {
-    if (imgUpload.classList.contains(newClassName)) {
-      imgUpload.classList.remove(newClassName);
-      imgUpload.className = '';
-    }
+  checkedRadio.addEventListener('click', () => {
+    imgUpload.className = '';
     imgUpload.classList.add(newClassName);
+    selectFilter = radioValue;
+    imgUpload.style.filter = '';
   })
 }
+
+const filterStyleNames = {
+  'chrome': { 'style': 'grayscale', minval: 0, maxval: 1, step: 0.1, 'unit': '' },
+  'sepia': { 'style': 'sepia', minval: 0, maxval: 1, step: 0.1, 'unit': '' },
+  'marvin': { 'style': 'invert', minval: 0, maxval: 100, step: 1, 'unit': '%' },
+  'phobos': { 'style': 'blur', minval: 0, maxval: 3, step: 0.1, 'unit': 'px' },
+  'heat': { 'style': 'brightness', minval: 1, maxval: 3, step: 0.1, 'unit': '' },
+};
 
 // слайдер
 
-valueElement.value = 1;
+// valueElement.value = 1;
 
-if (imgUploadOverlay.className !== 'hidden') {
-
-  window.noUiSlider.create(sliderElement, {
-    range: {
-      min: 0,
-      max: 1,
+window.noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
     },
-    start: 1,
-    step: 0.1,
-    connect: 'lower',
-    format: {
-      to: function (value) {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
+    from: function (value) {
+      return parseFloat(value);
     },
-  });
-
-  sliderElement.noUiSlider.on('update', (values, handle) => {
-    // console.log(values, handle);
-    valueElement.value = values[handle];
-  });
-}
-/*  как убрать слайдер для оригинала?
-
-for (let i = 0; i < effectsRadio.length; i++) {
-  let radioId = effectsRadio[i].id;
-  if (effectsRadio[i].checked && radioId !== 'effect-none') {
-  }
-}
-*/
-
-// нужно добавлять %  и  px для value ?
+  },
+});
 
 sliderElement.noUiSlider.on('update', (values, handle) => {
-  if (imgUpload.classList.contains('effects__preview--marvin')) {
-    valueElement.value = values[handle] + '%';
-  }
-  if (imgUpload.classList.contains('effects__preview--phobos')) {
-    valueElement.value = values[handle] + 'px';
+  valueElement.value = values[handle];
+  if (selectFilter !== '') {
+    imgUpload.style.filter =
+      filterStyleNames[selectFilter].style + '(' + valueElement.value + filterStyleNames[selectFilter].unit + ')';
+    //console.log(filterStyleNames[selectFilter].style + '(' + valueElement.value + filterStyleNames[selectFilter].unit + ')');
   }
 })
 
+formFieldset.classList.add('hidden');
 
-/* как изменить стили при выборе фильтра ?
-
-if (imgUpload.className === 'effects__preview--chrome') {
-  imgUpload.style.filter = 'grayscale(0..1)';
-}
-
-if (imgUpload.classList.contains('effects__preview--sepia')) {
-  imgUpload.style.filter = 'sepia(0..1)';
-}
-if (imgUpload.classList.contains('effects__preview--heat')) {
-  imgUpload.style.filter = 'brightness(1..3)';
-}
-if (imgUpload.classList.contains('effects__preview--marvin')) {
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 100,
-    step: 1,
+const changeFilterIntensity = (button, minValue, maxValue, step) => {
+  button.addEventListener('change', (evt) => {
+    formFieldset.classList.remove('hidden');
+    if (evt.target.checked) {
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: minValue,
+          max: maxValue,
+        },
+        start: maxValue,
+        step: step,
+        format: {
+          to: function (value) {
+            if (Number.isInteger(value)) {
+              return value.toFixed(0);
+            }
+            return value.toFixed(1);
+          },
+          from: function (value) {
+            return parseFloat(value);
+          },
+        },
+      })
+    }
   })
-  imgUpload.style.filter = 'invert(0..100%)';
 }
-if (imgUpload.classList.contains('effects__preview--phobos')) {
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 3,
-    },
-    start: 3,
-    step: 0.1,
-  });
-  imgUpload.style.filter = 'blur(0..3px)';
-}
-*/
+
+const resetFilters = (button) => {
+  button.addEventListener('change', (evt) => {
+    if (evt.target.checked) {
+      formFieldset.classList.add('hidden');
+    }
+  },
+  )
+};
+
+changeFilterIntensity(effectChromeRadio, 0, 1, 0.1);
+changeFilterIntensity(effectSepiaRadio, 0, 1, 0.1);
+changeFilterIntensity(effectMarvinRadio, 0, 100, 1);
+changeFilterIntensity(effectHeatRadio, 1, 3, 0.1);
+changeFilterIntensity(effectPhobosRadio, 0, 3, 0.1);
+resetFilters(effectNoneRadio);
+//console.log('effectNoneRadio', effectNoneRadio.value);
+//console.log('effectMarvinRadio', effectMarvinRadio.value);
+//console.log('effectPhobosRadio', effectPhobosRadio.value);
+//console.log('effectHeatRadio', effectHeatRadio.value);
+//console.log('effectChromeRadio', effectChromeRadio.value);
+//console.log('effectSepiaRadio', effectSepiaRadio.value);
+
 
 export { scaleControlValue, imgUpload };
+

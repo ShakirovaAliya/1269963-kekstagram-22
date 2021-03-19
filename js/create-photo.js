@@ -9,14 +9,13 @@ const similarPictureTemplate = document.querySelector('#picture').content.queryS
 const renderSimilarList = (similarPhotos) => {
   const similarPhotoFragment = document.createDocumentFragment();
 
-  similarPhotos
+  similarPhotos.slice()
     .forEach((foto) => {
       const pictureElement = similarPictureTemplate.cloneNode(true);
       pictureElement.querySelector('.picture__img').src = foto.url;
       pictureElement.querySelector('.picture__likes').textContent = foto.likes;
       pictureElement.querySelector('.picture__comments').textContent = foto.comments.length;
-      // pictureElement.dataset.id = foto.id;
-      //similarPhotoFragment.innerHTML = '';
+      document.querySelectorAll('.picture').forEach(function(item) { item.parentNode.removeChild(item)})
       similarPhotoFragment.appendChild(pictureElement);
       pictureElement.addEventListener('click', function () {
         createBigPicture(foto);
