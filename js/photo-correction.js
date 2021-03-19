@@ -96,7 +96,6 @@ sliderElement.noUiSlider.on('update', (values, handle) => {
   if (selectFilter !== '') {
     imgUpload.style.filter =
       filterStyleNames[selectFilter].style + '(' + valueElement.value + filterStyleNames[selectFilter].unit + ')';
-    //console.log(filterStyleNames[selectFilter].style + '(' + valueElement.value + filterStyleNames[selectFilter].unit + ')');
   }
 })
 
