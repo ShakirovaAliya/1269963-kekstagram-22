@@ -12,6 +12,8 @@ let form = document.querySelector('.img-upload__form');
 let tagMain = document.querySelector('main');
 let commentField = document.querySelector('.text__description');
 let hashtagField = document.querySelector('.text__hashtags');
+let effectNoneRadio = document.querySelector('#effect-none');
+let formFieldset = document.querySelector('.img-upload__effect-level');
 
 // открытие-закрытие формы
 
@@ -20,9 +22,13 @@ const resetForm = () => {
   hashtagField.value = '';
   commentField.value = '';
   scaleControlValue.value = 100 + '%';
+  effectNoneRadio.checked = true;
+  formFieldset.classList.add('hidden');
   imgUpload.style.transform = 'scale(1)';
-  imgUpload.classList.add('effects__preview--none');
+  imgUpload.className = '';
+  imgUpload.style.filter = '';
 }
+
 
 const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
