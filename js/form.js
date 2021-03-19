@@ -5,7 +5,6 @@ import { scaleControlValue, imgUpload } from './photo-correction.js';
 const MAX_COMMENT_LENGTH = 140;
 const MIN_HASHTAG_FIELD_LENGTH = 2;
 const MAX_HASHTAG_FIELD_LENGTH = 104;
-let valueElement = document.querySelector('.effect-level__value');
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
@@ -20,7 +19,6 @@ const resetForm = () => {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
-  //valueElement.value = 1;
   scaleControlValue.value = 100 + '%';
   imgUpload.style.transform = 'scale(1)';
   imgUpload.classList.add('effects__preview--none');

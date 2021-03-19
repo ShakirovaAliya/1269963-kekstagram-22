@@ -2,7 +2,6 @@ const MAX_SCALE_VALUE = 100;
 const MIN_SCALE_VALUE = 25;
 const STEP = 25;
 let currentScaleValue = 100;
-let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let scale = document.querySelector('.scale');
 let scaleControlSmaller = scale.querySelector('.scale__control--smaller');
 let scaleControlBigger = scale.querySelector('.scale__control--bigger');
@@ -106,6 +105,7 @@ formFieldset.classList.add('hidden');
 const changeFilterIntensity = (button, minValue, maxValue, step) => {
   button.addEventListener('change', (evt) => {
     formFieldset.classList.remove('hidden');
+
     if (evt.target.checked) {
       sliderElement.noUiSlider.updateOptions({
         range: {
@@ -145,13 +145,6 @@ changeFilterIntensity(effectMarvinRadio, 0, 100, 1);
 changeFilterIntensity(effectHeatRadio, 1, 3, 0.1);
 changeFilterIntensity(effectPhobosRadio, 0, 3, 0.1);
 resetFilters(effectNoneRadio);
-//console.log('effectNoneRadio', effectNoneRadio.value);
-//console.log('effectMarvinRadio', effectMarvinRadio.value);
-//console.log('effectPhobosRadio', effectPhobosRadio.value);
-//console.log('effectHeatRadio', effectHeatRadio.value);
-//console.log('effectChromeRadio', effectChromeRadio.value);
-//console.log('effectSepiaRadio', effectSepiaRadio.value);
-
 
 export { scaleControlValue, imgUpload };
 
