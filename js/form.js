@@ -143,7 +143,7 @@ let checkHashtag = () => {
     for (let j = 0; j < hashtags.length; j++) {
       let hashtag = hashtags[j];
       if (hashtags2.indexOf(hashtag.toLowerCase()) > -1) {
-        hashtagField.setCustomValidity('хеш-тег не может повторяться');
+        hashtagField.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
         return false;
       }
       hashtags2.push(hashtag.toLowerCase());
