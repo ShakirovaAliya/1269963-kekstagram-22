@@ -41,7 +41,7 @@ const sendData = (onSuccess, onFail, body) => {
     });
 }
 
-let toShowFailMessage = () => {
+let showFailMessage = () => {
   let failMessage = document.querySelector('#error').content.querySelector('.error');
   let failMessageElement = failMessage.cloneNode(true);
   failMessageElement.classList.add('fail__element');
@@ -66,4 +66,4 @@ let toShowFailMessage = () => {
   });
 };
 
-export { sendData, getData, toShowFailMessage }
+export { sendData, getData, showFailMessage }

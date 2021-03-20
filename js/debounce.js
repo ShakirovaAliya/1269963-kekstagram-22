@@ -5,20 +5,21 @@ const debounce = (func, wait, immediate) => {
 
   return () => {
     const context = this;
-    //const args = arguments;
 
     const later = () => {
       timeout = null;
-      if (!immediate) func.apply(context);
+      if (!immediate) {
+        func.apply(context)
+      }
     };
 
     const callNow = immediate && !timeout;
-
     clearTimeout(timeout);
-
     timeout = setTimeout(later, wait);
 
-    if (callNow) func.apply(context);
+    if (callNow) {
+      func.apply(context)
+    }
   };
 };
 

@@ -5,7 +5,6 @@ import { scaleControlValue, imgUpload } from './photo-correction.js';
 const MAX_COMMENT_LENGTH = 140;
 const MIN_HASHTAG_FIELD_LENGTH = 2;
 const MAX_HASHTAG_FIELD_LENGTH = 104;
-let valueElement = document.querySelector('.effect-level__value');
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
@@ -13,27 +12,32 @@ let form = document.querySelector('.img-upload__form');
 let tagMain = document.querySelector('main');
 let commentField = document.querySelector('.text__description');
 let hashtagField = document.querySelector('.text__hashtags');
+let effectNoneRadio = document.querySelector('#effect-none');
+let formFieldset = document.querySelector('.img-upload__effect-level');
 
 // открытие-закрытие формы
 
-const toClearForm = () => {
+const resetForm = () => {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
-  valueElement.value = 1;
   scaleControlValue.value = 100 + '%';
+  effectNoneRadio.checked = true;
+  formFieldset.classList.add('hidden');
   imgUpload.style.transform = 'scale(1)';
-  imgUpload.classList.add('effects__preview--none');
+  imgUpload.className = '';
+  imgUpload.style.filter = '';
 }
 
-const toOpenForm = () => {
+
+const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   pageBody.classList.add('modal-open');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
-const toCloseForm = () => {
-  toClearForm();
+const closeForm = () => {
+  resetForm();
   imgUploadOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscPress);
@@ -42,12 +46,12 @@ const toCloseForm = () => {
 let onPopupEscPress = (evt) => {
   if (evt.key === ('Escape' || 'Esc')) {
     evt.preventDefault();
-    toCloseForm();
+    closeForm();
   }
 };
 
-imgUploadInput.addEventListener('input', toOpenForm);
-uploadCancel.addEventListener('click', toCloseForm);
+imgUploadInput.addEventListener('input', openForm);
+uploadCancel.addEventListener('click', closeForm);
 
 // сообщение об успешной отправке
 
@@ -57,7 +61,7 @@ let uploadSuccess = () => {
   successMessageElement.classList.add('success__element');
   tagMain.appendChild(successMessageElement);
   imgUploadOverlay.classList.add('hidden');
-  toClearForm();
+  resetForm();
   let successElement = document.querySelector('.success__element');
   let successButton = successElement.querySelector('.success__button');
   let uploadFormSuccess = () => {
@@ -82,7 +86,7 @@ let uploadError = () => {
   errorMessageElement.classList.add('error__element');
   tagMain.appendChild(errorMessageElement);
   imgUploadOverlay.classList.add('hidden');
-  toClearForm();
+  resetForm();
   let errorElement = document.querySelector('.error__element');
   let errorButton = errorElement.querySelector('.error__button');
   let uploadFormError = () => {
@@ -143,7 +147,7 @@ let checkHashtag = () => {
     for (let j = 0; j < hashtags.length; j++) {
       let hashtag = hashtags[j];
       if (hashtags2.indexOf(hashtag.toLowerCase()) > -1) {
-        hashtagField.setCustomValidity('хеш-тег не может повторяться');
+        hashtagField.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
         return false;
       }
       hashtags2.push(hashtag.toLowerCase());
@@ -197,4 +201,4 @@ hashtagField.addEventListener('blur', () => {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-export { setFormSubmit, toCloseForm, tagMain }
+export { setFormSubmit, closeForm, tagMain }
