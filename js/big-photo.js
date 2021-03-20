@@ -47,7 +47,8 @@ let createBigPicture = (bigFoto) => {
   }
 
   if (openComentCount < comments.length) {
-    commentsLoader.addEventListener('click', function () {
+    commentsLoader.addEventListener('click', () => {
+
       let newIndex = Math.min(comments.length, openComentCount + 5);
       for (let j = openComentCount; j < newIndex; j++) {
         comments[j].classList.remove('hidden');
@@ -56,9 +57,12 @@ let createBigPicture = (bigFoto) => {
       bigPicture.querySelector('.social__comment-count').textContent = newIndex + ' из ' + bigFoto.comments.length + ' комментариев';
       openComentCount += 5;
       if (openComentCount >= comments.length) {
+        openComentCount = 5;
         commentsLoader.classList.add('hidden');
       }
+
     });
+
   }
   pageBody.classList.add('modal-open');
 
@@ -68,14 +72,14 @@ let createBigPicture = (bigFoto) => {
 let bigPicture = document.querySelector('.big-picture');
 let bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
-let closePopup = function () {
+let closePopup = () => {
   bigPicture.classList.add('hidden');
   pageBody.classList.remove('modal-open');
 };
 
 bigPictureCancel.addEventListener('click', closePopup);
 
-document.addEventListener('keydown', function (evt) {
+document.addEventListener('keydown', (evt) => {
   if (evt.key === ('Escape' || 'Esc')) {
     evt.preventDefault;
     closePopup();
