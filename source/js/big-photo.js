@@ -1,7 +1,8 @@
 let pageBody = document.querySelector('body');
 
 let createBigPicture = (bigFoto) => {
-  let openComentCount = 5;
+  const VISIBLE_COMMENTS_AMOUNT = 5;
+  let openComentCount = VISIBLE_COMMENTS_AMOUNT;
   let bigPicture = document.querySelector('.big-picture');
   let commentsLoader = bigPicture.querySelector('.comments-loader');
   bigPicture.classList.remove('hidden');
@@ -31,33 +32,33 @@ let createBigPicture = (bigFoto) => {
     commentElement.appendChild(commentText);
     commentText.textContent = commmentMessage;
 
-    if (bigFoto.comments.length <= 5) {
+    if (bigFoto.comments.length <= VISIBLE_COMMENTS_AMOUNT) {
       bigPicture.querySelector('.social__comment-count').textContent = bigFoto.comments.length + ' из ' + bigFoto.comments.length + ' комментариев';
       commentsLoader.classList.add('hidden');
     } else {
-      bigPicture.querySelector('.social__comment-count').textContent = 5 + ' из ' + bigFoto.comments.length + ' комментариев';
+      bigPicture.querySelector('.social__comment-count').textContent = VISIBLE_COMMENTS_AMOUNT + ' из ' + bigFoto.comments.length + ' комментариев';
       commentsLoader.classList.remove('hidden');
     }
   }
 
   let comments = bigPicture.querySelectorAll('.social__comment');
 
-  for (let j = 5; j < comments.length; j++) {
+  for (let j = VISIBLE_COMMENTS_AMOUNT; j < comments.length; j++) {
     comments[j].classList.add('hidden');
   }
 
   if (openComentCount < comments.length) {
     commentsLoader.addEventListener('click', () => {
 
-      let newIndex = Math.min(comments.length, openComentCount + 5);
+      let newIndex = Math.min(comments.length, openComentCount + VISIBLE_COMMENTS_AMOUNT);
       for (let j = openComentCount; j < newIndex; j++) {
         comments[j].classList.remove('hidden');
       }
 
       bigPicture.querySelector('.social__comment-count').textContent = newIndex + ' из ' + bigFoto.comments.length + ' комментариев';
-      openComentCount += 5;
+      openComentCount += VISIBLE_COMMENTS_AMOUNT;
       if (openComentCount >= comments.length) {
-        openComentCount = 5;
+        openComentCount = VISIBLE_COMMENTS_AMOUNT;
         commentsLoader.classList.add('hidden');
       }
 

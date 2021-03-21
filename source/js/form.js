@@ -5,6 +5,10 @@ import { scaleControlValue, imgUpload } from './photo-correction.js';
 const MAX_COMMENT_LENGTH = 140;
 const MIN_HASHTAG_FIELD_LENGTH = 2;
 const MAX_HASHTAG_FIELD_LENGTH = 104;
+const MAX_ONE_HASHTAG_LENGTH = 20;
+const MIN_ONE_HASHTAG_LENGTH = 2;
+const MAX_HASHTAGS_AMOUNT = 5;
+const DEFAULT_SCALE_CONTROL_VALUE = 100;
 let imgUploadInput = document.querySelector('#upload-file');
 let imgUploadOverlay = document.querySelector('.img-upload__overlay');
 let uploadCancel = document.querySelector('#upload-cancel');
@@ -21,7 +25,7 @@ const resetForm = () => {
   imgUploadInput.value = '';
   hashtagField.value = '';
   commentField.value = '';
-  scaleControlValue.value = 100 + '%';
+  scaleControlValue.value = DEFAULT_SCALE_CONTROL_VALUE + '%';
   effectNoneRadio.checked = true;
   formFieldset.classList.add('hidden');
   imgUpload.style.transform = 'scale(1)';
@@ -139,19 +143,19 @@ commentField.addEventListener('blur', () => {
 let checkHashtag = () => {
   if (hashtagField.value !== '') {
     let hashtags = hashtagField.value.split(' ');
-    if (hashtags.length > 5) {
+    if (hashtags.length > MAX_HASHTAGS_AMOUNT) {
       hashtagField.setCustomValidity('нельзя указать больше пяти хэш-тегов');
       return false;
     }
-    let hashtags2 = [];
+    let uniqueHashtags = [];
     for (let j = 0; j < hashtags.length; j++) {
       let hashtag = hashtags[j];
-      if (hashtags2.indexOf(hashtag.toLowerCase()) > -1) {
+      if (uniqueHashtags.indexOf(hashtag.toLowerCase()) > -1) {
         hashtagField.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
         return false;
       }
-      hashtags2.push(hashtag.toLowerCase());
-      if (j > 0 && hashtags[j - 1].split('').length < 2) {
+      uniqueHashtags.push(hashtag.toLowerCase());
+      if (j > 0 && hashtags[j - 1].split('').length < MIN_ONE_HASHTAG_LENGTH) {
         hashtagField.setCustomValidity('хеш-тег не может состоять только из одной решётки');
         return false;
       }
@@ -170,7 +174,7 @@ let checkHashtag = () => {
               return false;
             }
           }
-          if (letters.length > 20) {
+          if (letters.length > MAX_ONE_HASHTAG_LENGTH) {
             hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
             return false;
           }

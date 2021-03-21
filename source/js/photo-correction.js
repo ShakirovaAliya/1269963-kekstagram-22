@@ -1,3 +1,6 @@
+import noUiSlider from 'nouislider';
+import 'nouislider/distribute/nouislider.css';
+
 const MAX_SCALE_VALUE = 100;
 const MIN_SCALE_VALUE = 25;
 const STEP = 25;
@@ -48,7 +51,7 @@ scaleControlBigger.addEventListener('click', () => {
 
 let selectFilter = '';
 
-window.noUiSlider.create(sliderElement, {
+noUiSlider.create(sliderElement, {
   range: {
     min: 0,
     max: 1,
@@ -145,4 +148,3 @@ changeFilterIntensity(effectPhobosRadio, 0, 3, 0.1);
 resetFilters(effectNoneRadio);
 
 export { scaleControlValue, imgUpload };
-

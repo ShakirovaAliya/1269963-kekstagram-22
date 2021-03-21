@@ -1,11 +1,10 @@
-import { renderSimilarList, PHOTO_COUNT, PHOTO_RANDOM_COUNT, sortPhoto } from './create-photo.js';
+import { renderSimilarList, sortPhoto } from './create-photo.js';
 import { setFormSubmit, closeForm } from './form.js';
 import { getData, showFailMessage } from './api.js';
 import { DEBOUNCE_INTERVAL, debounce } from './debounce.js';
-import { imgFilter, filterButtonDefault, filterButtonRandom, filterButtonDiscussed, changeFilters } from './filters.js';
+import { imgFilter, PHOTO_COUNT, PHOTO_RANDOM_COUNT, filterButtonDefault, filterButtonRandom, filterButtonDiscussed, changeFilters } from './filters.js';
 import './user-photo.js';
 import './photo-correction.js';
-
 
 getData(
   (allFotos) => {
