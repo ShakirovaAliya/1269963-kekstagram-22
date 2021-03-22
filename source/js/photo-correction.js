@@ -1,3 +1,6 @@
+import noUiSlider from 'nouislider';
+import 'nouislider/distribute/nouislider.css';
+
 const MAX_SCALE_VALUE = 100;
 const MIN_SCALE_VALUE = 25;
 const STEP = 25;
@@ -29,7 +32,7 @@ scaleControlSmaller.addEventListener('click', () => {
     currentScaleValue = newValue;
   } else { scaleValue == MIN_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
-  imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
+  imgUpload.style.transform = 'scale(' + currentScaleValue / MAX_SCALE_VALUE + ')';
   return currentScaleValue;
 });
 
@@ -40,7 +43,7 @@ scaleControlBigger.addEventListener('click', () => {
     currentScaleValue = newValue;
   } else { scaleValue == MAX_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
-  imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
+  imgUpload.style.transform = 'scale(' + currentScaleValue / MAX_SCALE_VALUE + ')';
   return currentScaleValue;
 });
 
@@ -48,7 +51,7 @@ scaleControlBigger.addEventListener('click', () => {
 
 let selectFilter = '';
 
-window.noUiSlider.create(sliderElement, {
+noUiSlider.create(sliderElement, {
   range: {
     min: 0,
     max: 1,
@@ -145,4 +148,3 @@ changeFilterIntensity(effectPhobosRadio, 0, 3, 0.1);
 resetFilters(effectNoneRadio);
 
 export { scaleControlValue, imgUpload };
-
