@@ -32,7 +32,7 @@ scaleControlSmaller.addEventListener('click', () => {
     currentScaleValue = newValue;
   } else { scaleValue == MIN_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
-  imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
+  imgUpload.style.transform = 'scale(' + currentScaleValue / MAX_SCALE_VALUE + ')';
   return currentScaleValue;
 });
 
@@ -43,7 +43,7 @@ scaleControlBigger.addEventListener('click', () => {
     currentScaleValue = newValue;
   } else { scaleValue == MAX_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
-  imgUpload.style.transform = 'scale(' + currentScaleValue / 100 + ')';
+  imgUpload.style.transform = 'scale(' + currentScaleValue / MAX_SCALE_VALUE + ')';
   return currentScaleValue;
 });
 
