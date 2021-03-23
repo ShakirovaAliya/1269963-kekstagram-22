@@ -1,4 +1,4 @@
-import { tagMain } from './form.js';
+import { tagMain, onEscapePress } from './form.js';
 
 const getData = (onSuccess, onError) => {
   return fetch('https://22.javascript.pages.academy/kekstagram/data',
@@ -41,29 +41,23 @@ const sendData = (onSuccess, onFail, body) => {
     });
 }
 
-let showFailMessage = () => {
-  let failMessage = document.querySelector('#error').content.querySelector('.error');
-  let failMessageElement = failMessage.cloneNode(true);
+const showFailMessage = () => {
+  const failMessage = document.querySelector('#error').content.querySelector('.error');
+  const failMessageElement = failMessage.cloneNode(true);
   failMessageElement.classList.add('fail__element');
   tagMain.appendChild(failMessageElement);
-  let failElement = document.querySelector('.fail__element');
-  let errorButton = failElement.querySelector('.error__button');
+  const failElement = document.querySelector('.fail__element');
+  const errorButton = failElement.querySelector('.error__button');
   errorButton.classList.add('hidden');
-  let failTitle = failElement.querySelector('.error__title');
+  const failTitle = failElement.querySelector('.error__title');
   failTitle.textContent = 'не удалось загрузить фото :(';
   failTitle.style.color = '#dc143c';
-  let removeFailMessage = function () {
+  const failMessageRemoveHandler = ()  =>  {
     failElement.remove();
   };
 
-  document.addEventListener('click', removeFailMessage);
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
-      evt.preventDefault();
-      removeFailMessage();
-      document.removeEventListener('click', removeFailMessage);
-    }
-  });
+  document.addEventListener('click', failMessageRemoveHandler);
+  onEscapePress(failMessageRemoveHandler, failMessageRemoveHandler);
 };
 
 export { sendData, getData, showFailMessage }

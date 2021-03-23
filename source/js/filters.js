@@ -1,9 +1,9 @@
 const PHOTO_COUNT = 25;
 const PHOTO_RANDOM_COUNT = 10;
-let imgFilter = document.querySelector('.img-filters');
-let filterButtonDefault = imgFilter.querySelector('#filter-default');
-let filterButtonRandom = imgFilter.querySelector('#filter-random');
-let filterButtonDiscussed = imgFilter.querySelector('#filter-discussed');
+const imgFilter = document.querySelector('.img-filters');
+const filterButtonDefault = imgFilter.querySelector('#filter-default');
+const filterButtonRandom = imgFilter.querySelector('#filter-random');
+const filterButtonDiscussed = imgFilter.querySelector('#filter-discussed');
 
 const changeFilters = (checkedFilter, otherFilter1, otherFilter2) => {
   if (!checkedFilter.classList.contains('img-filters__button--active')) {

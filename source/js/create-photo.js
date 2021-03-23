@@ -14,7 +14,7 @@ const renderSimilarList = (similarPhotos) => {
       pictureElement.querySelector('.picture__img').src = foto.url;
       pictureElement.querySelector('.picture__likes').textContent = foto.likes;
       pictureElement.querySelector('.picture__comments').textContent = foto.comments.length;
-      let pictures = document.querySelectorAll('.picture');
+      const pictures = document.querySelectorAll('.picture');
       pictures.forEach((item) => { item.parentNode.removeChild(item) })
       similarPhotoFragment.appendChild(pictureElement);
       pictureElement.addEventListener('click', () => {

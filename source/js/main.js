@@ -1,5 +1,5 @@
 import { renderSimilarList, sortPhoto } from './create-photo.js';
-import { setFormSubmit, closeForm } from './form.js';
+import { setFormSubmit, formCloseHandler } from './form.js';
 import { getData, showFailMessage } from './api.js';
 import { DEBOUNCE_INTERVAL, debounce } from './debounce.js';
 import { imgFilter, PHOTO_COUNT, PHOTO_RANDOM_COUNT, filterButtonDefault, filterButtonRandom, filterButtonDiscussed, changeFilters } from './filters.js';
@@ -36,4 +36,4 @@ getData(
   (err) => { showFailMessage(err) },
 );
 
-setFormSubmit(closeForm);
+setFormSubmit(formCloseHandler);

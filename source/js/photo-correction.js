@@ -30,7 +30,7 @@ scaleControlSmaller.addEventListener('click', () => {
   if (scaleValue > MIN_SCALE_VALUE) {
     let newValue = scaleValue - STEP;
     currentScaleValue = newValue;
-  } else { scaleValue == MIN_SCALE_VALUE }
+  } else { scaleValue === MIN_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / MAX_SCALE_VALUE + ')';
   return currentScaleValue;
@@ -41,7 +41,7 @@ scaleControlBigger.addEventListener('click', () => {
   if (scaleValue < MAX_SCALE_VALUE) {
     let newValue = scaleValue + STEP;
     currentScaleValue = newValue;
-  } else { scaleValue == MAX_SCALE_VALUE }
+  } else { scaleValue === MAX_SCALE_VALUE }
   scaleControlValue.value = currentScaleValue + '%';
   imgUpload.style.transform = 'scale(' + currentScaleValue / MAX_SCALE_VALUE + ')';
   return currentScaleValue;
@@ -60,13 +60,13 @@ noUiSlider.create(sliderElement, {
   step: 0.1,
   connect: 'lower',
   format: {
-    to: function (value) {
+    to: (value) => {
       if (Number.isInteger(value)) {
         return value.toFixed(0);
       }
       return value.toFixed(1);
     },
-    from: function (value) {
+    from: (value) => {
       return parseFloat(value);
     },
   },
@@ -94,13 +94,13 @@ const changeFilterIntensity = (button, minValue, maxValue, step) => {
         start: maxValue,
         step: step,
         format: {
-          to: function (value) {
+          to: (value) => {
             if (Number.isInteger(value)) {
               return value.toFixed(0);
             }
             return value.toFixed(1);
           },
-          from: function (value) {
+          from: (value) => {
             return parseFloat(value);
           },
         },

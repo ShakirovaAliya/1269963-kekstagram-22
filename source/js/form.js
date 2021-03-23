@@ -9,15 +9,15 @@ const MAX_ONE_HASHTAG_LENGTH = 20;
 const MIN_ONE_HASHTAG_LENGTH = 2;
 const MAX_HASHTAGS_AMOUNT = 5;
 const DEFAULT_SCALE_CONTROL_VALUE = 100;
-let imgUploadInput = document.querySelector('#upload-file');
-let imgUploadOverlay = document.querySelector('.img-upload__overlay');
-let uploadCancel = document.querySelector('#upload-cancel');
-let form = document.querySelector('.img-upload__form');
-let tagMain = document.querySelector('main');
-let commentField = document.querySelector('.text__description');
-let hashtagField = document.querySelector('.text__hashtags');
-let effectNoneRadio = document.querySelector('#effect-none');
-let formFieldset = document.querySelector('.img-upload__effect-level');
+const imgUploadInput = document.querySelector('#upload-file');
+const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const uploadCancel = document.querySelector('#upload-cancel');
+const form = document.querySelector('.img-upload__form');
+const tagMain = document.querySelector('main');
+const commentField = document.querySelector('.text__description');
+const hashtagField = document.querySelector('.text__hashtags');
+const effectNoneRadio = document.querySelector('#effect-none');
+const formFieldset = document.querySelector('.img-upload__effect-level');
 
 // открытие-закрытие формы
 
@@ -34,77 +34,78 @@ const resetForm = () => {
 }
 
 
-const openForm = () => {
+const formOpenHandler = () => {
   imgUploadOverlay.classList.remove('hidden');
   pageBody.classList.add('modal-open');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
-const closeForm = () => {
+const formCloseHandler = () => {
   resetForm();
   imgUploadOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-let onPopupEscPress = (evt) => {
-  if (evt.key === ('Escape' || 'Esc')) {
-    evt.preventDefault();
-    closeForm();
-  }
+
+const onEscapePress = (onEmit, handler) => {
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      onEmit();
+      document.removeEventListener('click', handler);
+    }
+  })
+}
+
+const onPopupEscPress = () => {
+  onEscapePress(formCloseHandler);
 };
 
-imgUploadInput.addEventListener('input', openForm);
-uploadCancel.addEventListener('click', closeForm);
+imgUploadInput.addEventListener('input', formOpenHandler);
+uploadCancel.addEventListener('click', formCloseHandler);
 
 // сообщение об успешной отправке
 
-let uploadSuccess = () => {
-  let successMessage = document.querySelector('#success').content.querySelector('.success');
-  let successMessageElement = successMessage.cloneNode(true);
+const uploadSuccess = () => {
+  const successMessage = document.querySelector('#success').content.querySelector('.success');
+  const successMessageElement = successMessage.cloneNode(true);
   successMessageElement.classList.add('success__element');
   tagMain.appendChild(successMessageElement);
   imgUploadOverlay.classList.add('hidden');
   resetForm();
-  let successElement = document.querySelector('.success__element');
-  let successButton = successElement.querySelector('.success__button');
-  let uploadFormSuccess = () => {
+  const successElement = document.querySelector('.success__element');
+  const successButton = successElement.querySelector('.success__button');
+  const formUploadSuccessHandler = () => {
     successElement.remove();
   };
-  successButton.addEventListener('click', uploadFormSuccess);
-  document.addEventListener('click', uploadFormSuccess);
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
-      evt.preventDefault();
-      uploadFormSuccess();
-      document.removeEventListener('click', uploadFormSuccess);
-    }
-  });
+  successButton.addEventListener('click', formUploadSuccessHandler);
+  document.addEventListener('click', formUploadSuccessHandler);
+  onEscapePress(formUploadSuccessHandler, formUploadSuccessHandler);
 };
 
 // сообщение о неуспешной отправке
 
-let uploadError = () => {
-  let errorMessage = document.querySelector('#error').content.querySelector('.error');
-  let errorMessageElement = errorMessage.cloneNode(true);
+const uploadError = () => {
+  const errorMessage = document.querySelector('#error').content.querySelector('.error');
+  const errorMessageElement = errorMessage.cloneNode(true);
   errorMessageElement.classList.add('error__element');
   tagMain.appendChild(errorMessageElement);
   imgUploadOverlay.classList.add('hidden');
   resetForm();
-  let errorElement = document.querySelector('.error__element');
-  let errorButton = errorElement.querySelector('.error__button');
-  let uploadFormError = () => {
+  const errorElement = document.querySelector('.error__element');
+  const errorButton = errorElement.querySelector('.error__button');
+  const formUploadErrorHandler = () => {
     errorElement.remove();
   };
-  errorButton.addEventListener('click', uploadFormError);
-  document.addEventListener('click', uploadFormError);
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
-      evt.preventDefault();
-      errorElement.remove();
-      document.removeEventListener('click', uploadFormError);
-    }
-  });
+  errorButton.addEventListener('click', formUploadErrorHandler);
+  document.addEventListener('click', formUploadErrorHandler);
+  const errorElementRemoveHandler = () => {
+    errorElement.remove();
+  }
+
+  onEscapePress(errorElementRemoveHandler, formUploadErrorHandler);
+
 };
 
 // отправка формы
@@ -140,7 +141,31 @@ commentField.addEventListener('blur', () => {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-let checkHashtag = () => {
+const checkHashtag = (tag) => {
+  if (tag) {
+    let letters = tag.split('');
+    for (let k = 0; k < letters.length; k++) {
+      if (k === 0) {
+        if (letters[k] !== '#') {
+          hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
+          return false;
+        }
+      } else {
+        const regex = /^[a-zA-Z0-9а-яА-Я]+$/;
+        if (!regex.test(letters[k])) {
+          hashtagField.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
+          return false;
+        }
+      }
+      if (letters.length > MAX_ONE_HASHTAG_LENGTH) {
+        hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
+        return false;
+      }
+    }
+  }
+}
+
+const checkHashtags = () => {
   if (hashtagField.value !== '') {
     let hashtags = hashtagField.value.split(' ');
     if (hashtags.length > MAX_HASHTAGS_AMOUNT) {
@@ -159,30 +184,10 @@ let checkHashtag = () => {
         hashtagField.setCustomValidity('хеш-тег не может состоять только из одной решётки');
         return false;
       }
-      if (hashtag) {
-        let letters = hashtag.split('');
-        for (let k = 0; k < letters.length; k++) {
-          if (k === 0) {
-            if (letters[k] !== '#') {
-              hashtagField.setCustomValidity('хэш-тег должен начинаться с символа # (решётка)');
-              return false;
-            }
-          } else {
-            let regex = /^[a-zA-Z0-9а-яА-Я]+$/;
-            if (!regex.test(letters[k])) {
-              hashtagField.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
-              return false;
-            }
-          }
-          if (letters.length > MAX_ONE_HASHTAG_LENGTH) {
-            hashtagField.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
-            return false;
-          }
-        }
-      }
+      checkHashtag(hashtag);
     }
   }
-};
+}
 
 hashtagField.addEventListener('input', () => {
   const valueLength = hashtagField.value.length;
@@ -193,7 +198,7 @@ hashtagField.addEventListener('input', () => {
   } else {
     hashtagField.setCustomValidity('');
   }
-  checkHashtag();
+  checkHashtags();
   hashtagField.reportValidity();
 });
 
@@ -205,4 +210,4 @@ hashtagField.addEventListener('blur', () => {
   document.addEventListener('keydown', onPopupEscPress);
 }, true);
 
-export { setFormSubmit, closeForm, tagMain }
+export { setFormSubmit, formCloseHandler, tagMain, onEscapePress }

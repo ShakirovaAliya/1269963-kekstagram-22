@@ -1,42 +1,44 @@
-let pageBody = document.querySelector('body');
+import { onEscapePress } from './form.js';
+const pageBody = document.querySelector('body');
 
 let createBigPicture = (bigFoto) => {
   const VISIBLE_COMMENTS_AMOUNT = 5;
   let openComentCount = VISIBLE_COMMENTS_AMOUNT;
-  let bigPicture = document.querySelector('.big-picture');
-  let commentsLoader = bigPicture.querySelector('.comments-loader');
+  const bigPicture = document.querySelector('.big-picture');
+  const commentsLoader = bigPicture.querySelector('.comments-loader');
+  const socialCommentCount = bigPicture.querySelector('.social__comment-count');
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('img').src = bigFoto.url;
   bigPicture.querySelector('.likes-count').textContent = bigFoto.likes;
   bigPicture.querySelector('.social__caption').textContent = bigFoto.description;
 
-  let commentList = document.querySelector('.social__comments');
+  const commentList = document.querySelector('.social__comments');
   commentList.innerHTML = '';
+
   for (let i = 0; i < bigFoto.comments.length; i++) {
-    let commentElement = document.createElement('li');
+    const commentElement = document.createElement('li');
     commentElement.classList.add('social__comment');
-    commentList.appendChild(commentElement);
 
     let commentAvatar = bigFoto.comments[i].avatar;
     let commmentMessage = bigFoto.comments[i].message;
     let commmentName = bigFoto.comments[i].name;
 
-    let avatarSrc = document.createElement('img');
+    const avatarSrc = document.createElement('img');
     avatarSrc.classList.add('social__picture');
     commentElement.appendChild(avatarSrc);
     avatarSrc.src = commentAvatar;
     avatarSrc.alt = commmentName;
 
-    let commentText = document.createElement('p');
+    const commentText = document.createElement('p');
     commentText.classList.add('social__text');
     commentElement.appendChild(commentText);
     commentText.textContent = commmentMessage;
 
     if (bigFoto.comments.length <= VISIBLE_COMMENTS_AMOUNT) {
-      bigPicture.querySelector('.social__comment-count').textContent = bigFoto.comments.length + ' из ' + bigFoto.comments.length + ' комментариев';
+      socialCommentCount.textContent = bigFoto.comments.length + ' из ' + bigFoto.comments.length + ' комментариев';
       commentsLoader.classList.add('hidden');
     } else {
-      bigPicture.querySelector('.social__comment-count').textContent = VISIBLE_COMMENTS_AMOUNT + ' из ' + bigFoto.comments.length + ' комментариев';
+      socialCommentCount.textContent = VISIBLE_COMMENTS_AMOUNT + ' из ' + bigFoto.comments.length + ' комментариев';
       commentsLoader.classList.remove('hidden');
     }
   }
@@ -70,21 +72,15 @@ let createBigPicture = (bigFoto) => {
   return bigPicture;
 }
 
-let bigPicture = document.querySelector('.big-picture');
-let bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
+const bigPicture = document.querySelector('.big-picture');
+const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
-let closePopup = () => {
+const popupCloseHandler = () => {
   bigPicture.classList.add('hidden');
   pageBody.classList.remove('modal-open');
 };
 
-bigPictureCancel.addEventListener('click', closePopup);
-
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === ('Escape' || 'Esc')) {
-    evt.preventDefault;
-    closePopup();
-  }
-});
+bigPictureCancel.addEventListener('click', popupCloseHandler);
+onEscapePress(popupCloseHandler);
 
 export { createBigPicture, pageBody };
