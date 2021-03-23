@@ -1,9 +1,9 @@
 import { onEscapePress } from './form.js';
 const pageBody = document.querySelector('body');
 
-let createBigPicture = (bigFoto) => {
+const createBigPicture = (bigFoto) => {
   const VISIBLE_COMMENTS_AMOUNT = 5;
-  let openComentCount = VISIBLE_COMMENTS_AMOUNT;
+  let openCommentCount = VISIBLE_COMMENTS_AMOUNT;
   const bigPicture = document.querySelector('.big-picture');
   const commentsLoader = bigPicture.querySelector('.comments-loader');
   const socialCommentCount = bigPicture.querySelector('.social__comment-count');
@@ -18,6 +18,7 @@ let createBigPicture = (bigFoto) => {
   for (let i = 0; i < bigFoto.comments.length; i++) {
     const commentElement = document.createElement('li');
     commentElement.classList.add('social__comment');
+    commentList.appendChild(commentElement);
 
     let commentAvatar = bigFoto.comments[i].avatar;
     let commmentMessage = bigFoto.comments[i].message;
@@ -43,27 +44,27 @@ let createBigPicture = (bigFoto) => {
     }
   }
 
-  let comments = bigPicture.querySelectorAll('.social__comment');
+  const comments = bigPicture.querySelectorAll('.social__comment');
 
   for (let j = VISIBLE_COMMENTS_AMOUNT; j < comments.length; j++) {
     comments[j].classList.add('hidden');
   }
 
-  if (openComentCount < comments.length) {
+  if (openCommentCount < comments.length) {
     commentsLoader.addEventListener('click', () => {
 
-      let newIndex = Math.min(comments.length, openComentCount + VISIBLE_COMMENTS_AMOUNT);
-      for (let j = openComentCount; j < newIndex; j++) {
+      let newIndex = Math.min(comments.length, openCommentCount + VISIBLE_COMMENTS_AMOUNT);
+      for (let j = openCommentCount; j < newIndex; j++) {
         comments[j].classList.remove('hidden');
       }
 
-      bigPicture.querySelector('.social__comment-count').textContent = newIndex + ' из ' + bigFoto.comments.length + ' комментариев';
-      openComentCount += VISIBLE_COMMENTS_AMOUNT;
-      if (openComentCount >= comments.length) {
-        openComentCount = VISIBLE_COMMENTS_AMOUNT;
+      socialCommentCount.textContent = newIndex + ' из ' + bigFoto.comments.length + ' комментариев';
+      openCommentCount += VISIBLE_COMMENTS_AMOUNT;
+
+      if (openCommentCount >= comments.length) {
+        openCommentCount = VISIBLE_COMMENTS_AMOUNT;
         commentsLoader.classList.add('hidden');
       }
-
     });
 
   }
