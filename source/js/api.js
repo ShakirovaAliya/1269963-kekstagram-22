@@ -52,7 +52,7 @@ const showFailMessage = () => {
   const failTitle = failElement.querySelector('.error__title');
   failTitle.textContent = 'не удалось загрузить фото :(';
   failTitle.style.color = '#dc143c';
-  const failMessageRemoveHandler = ()  =>  {
+  const failMessageRemoveHandler = () => {
     failElement.remove();
   };
 
