@@ -3,7 +3,6 @@ import { sendData } from './api.js';
 import { scaleControlValue, imgUpload } from './photo-correction.js';
 
 const MAX_COMMENT_LENGTH = 140;
-const MIN_HASHTAG_FIELD_LENGTH = 2;
 const MAX_HASHTAG_FIELD_LENGTH = 104;
 const MAX_ONE_HASHTAG_LENGTH = 20;
 const MIN_ONE_HASHTAG_LENGTH = 2;
@@ -191,9 +190,7 @@ const checkHashtags = () => {
 
 hashtagField.addEventListener('input', () => {
   const valueLength = hashtagField.value.length;
-  if (valueLength < MIN_HASHTAG_FIELD_LENGTH) {
-    hashtagField.setCustomValidity('Ещё ' + (MIN_HASHTAG_FIELD_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
+  if (valueLength > MAX_HASHTAG_FIELD_LENGTH) {
     hashtagField.setCustomValidity('Удалите лишние ' + (valueLength - MAX_HASHTAG_FIELD_LENGTH) + ' симв.');
   } else {
     hashtagField.setCustomValidity('');
